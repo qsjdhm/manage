@@ -1,11 +1,18 @@
-# DOIT个人博客管理系统
-* 此项目是我的最新版的个人博客源代码。 http://www.52doit.com
-* by zhangyan 2016-10-13            email : qsjdhm@163.com
+# MANAGE -- 通用数据平台管理系统
+* 此项目是为了弥补doit项目的缺陷和不足，并在此基础上提炼通用框架、封装通用组件而开发。
+
+* 开发此项目重点学习 : 
+* - react的重载、更新等生命周期的那些方法意义和作用
+* - 理解在redux的架子下组件如何父子、同级组件的数据传输、方法调用
+* - 理解redux中的reducers，stores中的概念，还有dispatch，redux-thunk，总结redux的整个流程
+* - 分析项目适合hashHistory还是browserHistory路由，实现子路由、路由处理权限等功能
+* - 争取把此项目提炼为通用的数据平台管理系统
+
+* by zhangyan 2016-11-01            email : qsjdhm@163.com
 
 # 目录介绍
 * src文件夹下面是java代码、WebContent/WEB-INF下是后台配置文件
 * WebContent文件夹下面是前端代码
-* - login      后台管理系统登录代码
 * - admin      后台管理系统代码
 * - column     前台页面频道代码
 * - common     项目前端一些通用文件
@@ -14,21 +21,18 @@
 #后端使用技术
 * 数据库采用mysql5
 * 后台路由采用spring mvc
-* 静态化采用freemarker+java流生成文件
-* 后台服务采用spring+hibernate来实现快速的搭建整个MVC中的M模块
-
-#前台页面使用技术
-* jquery+bootstrap
-* ueditor
+* 静态化采用freemarker + java流生成文件
+* 后台服务采用spring + hibernate来实现快速的搭建整个MVC中的M模块
 
 #后台管理系统页面使用技术
-* react+react-redux++antd
+* react + react-redux + antd
 * react-router路由按需加载
 * webpack-dev-server
-* webpack+nodejs
 
-#本人对做这个网站有个总结性的文章：http://52doit.com/show/361可以去学习下
+#前台页面使用技术
+* jquery + bootstrap
+* ueditor
+
 
 #如果对你有所帮助，欢迎点赞
 
-* 标记：此版本为最新可发布代码
