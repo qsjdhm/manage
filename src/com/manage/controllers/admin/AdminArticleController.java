@@ -39,7 +39,7 @@ import com.manage.vo.TComment;
 @Controller
 @RequestMapping(value = "/articleAction")
 public class AdminArticleController {
-	
+	 
 	// 如果需要使用文章的服务，要在此先声明
 	@Resource(name = "articleService")
 	private IArticleService<TArticle> articleService;  // 声明IArticleService
