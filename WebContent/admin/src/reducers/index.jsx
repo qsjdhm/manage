@@ -1,6 +1,8 @@
 
 import login               from './login';
 
+import main                from './main';
+
 import addArticle          from './article/addArticle';
 import editArticle         from './article/editArticle';
 import delArticle          from './article/delArticle';
@@ -36,6 +38,8 @@ import { combineReducers } from 'redux';
 
 const reducers = {
     login,
+
+    main,
 
     addArticle,
     editArticle,

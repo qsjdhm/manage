@@ -17,16 +17,11 @@ import {
 	updateUser
 } from '../../actions/user/editUser';
 
-import { Modal, Form, Input, message, Row, Col } from 'antd';
+import { Modal, Form, Input, message } from 'antd';
 
-import MenuComponent       from '../../components/menu/js/MenuComponent';
-import SearchComponent     from '../../components/search/js/SearchComponent';
-import ToolBarComponent    from '../../components/toolbar/js/ToolBarComponent';
-import BreadcrumbComponent from '../../components/breadcrumb/js/BreadcrumbComponent';
 import SelectComponent     from '../../components/select/js/SelectComponent';
 import TableComponent      from '../../components/table/js/TableComponent';
 import PaginationComponent from '../../components/pagination/js/PaginationComponent';
-import fetchComponent      from '../../components/fetch/js/fetchComponent';
 
 import '../../css/user.less';
 
@@ -128,58 +123,30 @@ export class EditUserPage extends React.Component {
 		const FormItem = Form.Item;
 
 		return (
-			<div>
-				<MenuComponent openSubMenu={this.props.route.sort} selectedMenu={this.props.route.bpath} />
-				<div className="ant-layout-main">
-					<div className="ant-layout-header">
-						<Row>
-							<Col span={4}>
-								<SearchComponent
-									placeholder="快速菜单入口"
-									style={{ width: 230 }}
-								/>
-							</Col>
-							<Col span={12} offset={8}>
-								<ToolBarComponent
-								/>
-							</Col>
-						</Row>
-					</div>
-					<div id="container" className="ant-layout-container">
-						<div className="ant-layout-content">
-							<BreadcrumbComponent
-								data={this.props.routes}
-							/>
-						</div>
-                        <div id="page" className="page edit-user-page">
-							{ this.renderTableList() }
-							{ this.renderPaginationList() }
-                        </div>
-						<Modal title="修改用户详细信息"
-							   visible={this.props.modelVisible}
-							   onOk={this.handleOk.bind(this)}
-							   onCancel={this.handleCancel.bind(this)}>
-							<Form horizontal>
-								<FormItem
-									label="用户名称">
-									<Input value={this.props.modelSaveName} onChange={this.modelNameChangeHandler.bind(this)} placeholder="" size="large"/>
-								</FormItem>
-                                <FormItem
-                                    label="用户密码">
-                                    <Input value={this.props.modelSavePassword} onChange={this.modelPasswordChangeHandler.bind(this)} placeholder="" size="large"/>
-                                </FormItem>
-                                <FormItem
-                                    label="用户邮箱">
-                                    <Input value={this.props.modelSaveEmail} onChange={this.modelEmailChangeHandler.bind(this)} placeholder="" size="large"/>
-                                </FormItem>
-							</Form>
-						</Modal>
-					</div>
-					<div className="ant-layout-footer">
-						52DOIT 版权所有 © 2016 由不拽注定被甩~技术支持
-					</div>
-				</div>
-			</div>
+            <div id="page" className="page edit-user-page">
+                { this.renderTableList() }
+                { this.renderPaginationList() }
+
+                <Modal title="修改用户详细信息"
+                       visible={this.props.modelVisible}
+                       onOk={this.handleOk.bind(this)}
+                       onCancel={this.handleCancel.bind(this)}>
+                    <Form horizontal>
+                        <FormItem
+                            label="用户名称">
+                            <Input value={this.props.modelSaveName} onChange={this.modelNameChangeHandler.bind(this)} placeholder="" size="large"/>
+                        </FormItem>
+                        <FormItem
+                            label="用户密码">
+                            <Input value={this.props.modelSavePassword} onChange={this.modelPasswordChangeHandler.bind(this)} placeholder="" size="large"/>
+                        </FormItem>
+                        <FormItem
+                            label="用户邮箱">
+                            <Input value={this.props.modelSaveEmail} onChange={this.modelEmailChangeHandler.bind(this)} placeholder="" size="large"/>
+                        </FormItem>
+                    </Form>
+                </Modal>
+            </div>
 		);
 	}
 };

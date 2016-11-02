@@ -26,8 +26,8 @@ export default class MenuComponent extends React.Component {
                     <Menu
 	                    mode="inline"
 	                    theme="dark"
-	                    defaultOpenKeys={[this.props.openSubMenu]}
-	                    defaultSelectedKeys={[this.props.selectedMenu]}>
+                        openKeys={[this.props.openSubMenu]}
+                        selectedKeys={[this.props.selectedMenu]}>
                         <Menu.Item key="#/home"><Icon type="desktop" /><Link style={{display: "inline-block",width: "100%"}} to="/home">系统首页</Link></Menu.Item>
                         <Menu.SubMenu key="Article" title={<span><Icon type="file-text" />文章管理</span>}>
                             <Menu.Item key="#/addArticle"><Link to="/home/addArticle">新增文章</Link></Menu.Item>

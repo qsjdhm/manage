@@ -21,16 +21,11 @@ import {
 	updateBook
 } from '../../actions/book/editBook';
 
-import { Modal, Form, Upload, Button, Input, Icon, message, Row, Col } from 'antd';
+import { Modal, Form, Upload, Button, Input, Icon, message } from 'antd';
 
-import MenuComponent       from '../../components/menu/js/MenuComponent';
-import SearchComponent     from '../../components/search/js/SearchComponent';
-import ToolBarComponent    from '../../components/toolbar/js/ToolBarComponent';
-import BreadcrumbComponent from '../../components/breadcrumb/js/BreadcrumbComponent';
 import SelectComponent     from '../../components/select/js/SelectComponent';
 import TableComponent      from '../../components/table/js/TableComponent';
 import PaginationComponent from '../../components/pagination/js/PaginationComponent';
-import fetchComponent      from '../../components/fetch/js/fetchComponent';
 
 import '../../css/book.less';
 
@@ -207,71 +202,43 @@ export class EditBookPage extends React.Component {
 		};
 
 		return (
-			<div>
-				<MenuComponent openSubMenu={this.props.route.sort} selectedMenu={this.props.route.bpath} />
-				<div className="ant-layout-main">
-					<div className="ant-layout-header">
-						<Row>
-							<Col span={4}>
-								<SearchComponent
-									placeholder="快速菜单入口"
-									style={{ width: 230 }}
-								/>
-							</Col>
-							<Col span={12} offset={8}>
-								<ToolBarComponent
-								/>
-							</Col>
-						</Row>
-					</div>
-					<div id="container" className="ant-layout-container">
-						<div className="ant-layout-content">
-							<BreadcrumbComponent
-								data={this.props.routes}
-							/>
-						</div>
-                        <div id="page" className="page edit-book-page">
-                            { this.renderSortSelect() }
-							{ this.renderTableList() }
-							{ this.renderPaginationList() }
-                        </div>
-						<Modal title="修改图书详细信息"
-							   visible={this.props.modelVisible}
-							   onOk={this.handleOk.bind(this)}
-							   onCancel={this.handleCancel.bind(this)}>
-							<Form horizontal>
-								<FormItem
-									label="图书封面">
-									<Upload {...updateProps}>
-										<Button className="uploader-btn" type="ghost">
-											<Icon type="upload" /> 点击上传
-										</Button>
-									</Upload>
-								</FormItem>
-								<FormItem
-									label="图书分类">
-									{ this.renderModelSortList() }
-								</FormItem>
-								<FormItem
-									label="图书名称">
-									<Input value={this.props.modelSaveTitle} onChange={this.modelTitleChangeHandler.bind(this)} placeholder="" size="large"/>
-								</FormItem>
-								<FormItem
-									label="图书高度">
-									<Input value={this.props.modelSaveHeight} onChange={this.modelHeightChangeHandler.bind(this)} placeholder="" size="large"/>
-								</FormItem>
-								<FormItem
-									label="下载路径">
-									<Input value={this.props.modelSavePath} onChange={this.modelPathChangeHandler.bind(this)} type="textarea" rows="3" placeholder="" size="large"/>
-								</FormItem>
-							</Form>
-						</Modal>
-					</div>
-					<div className="ant-layout-footer">
-						52DOIT 版权所有 © 2016 由不拽注定被甩~技术支持
-					</div>
-				</div>
-			</div>
+            <div id="page" className="page edit-book-page">
+                { this.renderSortSelect() }
+                { this.renderTableList() }
+                { this.renderPaginationList() }
+
+                <Modal title="修改图书详细信息"
+                       visible={this.props.modelVisible}
+                       onOk={this.handleOk.bind(this)}
+                       onCancel={this.handleCancel.bind(this)}>
+                    <Form horizontal>
+                        <FormItem
+                            label="图书封面">
+                            <Upload {...updateProps}>
+                                <Button className="uploader-btn" type="ghost">
+                                    <Icon type="upload" /> 点击上传
+                                </Button>
+                            </Upload>
+                        </FormItem>
+                        <FormItem
+                            label="图书分类">
+                            { this.renderModelSortList() }
+                        </FormItem>
+                        <FormItem
+                            label="图书名称">
+                            <Input value={this.props.modelSaveTitle} onChange={this.modelTitleChangeHandler.bind(this)} placeholder="" size="large"/>
+                        </FormItem>
+                        <FormItem
+                            label="图书高度">
+                            <Input value={this.props.modelSaveHeight} onChange={this.modelHeightChangeHandler.bind(this)} placeholder="" size="large"/>
+                        </FormItem>
+                        <FormItem
+                            label="下载路径">
+                            <Input value={this.props.modelSavePath} onChange={this.modelPathChangeHandler.bind(this)} type="textarea" rows="3" placeholder="" size="large"/>
+                        </FormItem>
+                    </Form>
+                </Modal>
+            </div>
 		);
 	}
 };

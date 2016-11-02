@@ -19,14 +19,10 @@ import {
 
 import { Input, Button, notification, message, Row, Col } from 'antd';
 
-import MenuComponent       from '../../components/menu/js/MenuComponent';
-import SearchComponent     from '../../components/search/js/SearchComponent';
-import ToolBarComponent    from '../../components/toolbar/js/ToolBarComponent';
-import BreadcrumbComponent from '../../components/breadcrumb/js/BreadcrumbComponent';
+
 import SelectComponent     from '../../components/select/js/SelectComponent';
 import UeditorComponent    from '../../components/ueditor/js/UeditorComponent';
 import TagComponent        from '../../components/tag/js/TagComponent';
-import fetchComponent      from '../../components/fetch/js/fetchComponent';
 
 
 
@@ -98,54 +94,23 @@ export class AddArticlePage extends React.Component {
 
     render() {
         return (
-            <div>
-                <MenuComponent openSubMenu={this.props.route.sort} selectedMenu={this.props.route.bpath} />
-                <div className="ant-layout-main">
-                    <div className="ant-layout-header">
-                        <Row>
-                            <Col span={4}>
-                                <SearchComponent
-                                    placeholder="快速菜单入口"
-                                    style={{ width: 230 }}
-                                />
-                            </Col>
-                            <Col span={12} offset={8}>
-                                <ToolBarComponent
-                                />
-                            </Col>
-                        </Row>
-                    </div>
-                    <div id="container" className="ant-layout-container">
-                        <div className="ant-layout-content">
-                            <BreadcrumbComponent
-                                data={this.props.routes}
-                            />
-                        </div>
-                        <div id="page" className="page add-article-page">
-                            { this.renderSortSelect() }
-                            <Input onChange={this.titleChangeHandler.bind(this)} style={{ width: 470 }} size="large" placeholder="文章名称"/>
-                            <UeditorComponent
-                                id="content"
-                                width="820"
-                                height="400"
-                            />
-                            { this.renderTag() }
-                            <Button
-                                onClick={this.submitClickHandler.bind(this)}
-                                loading={this.props.loading}
-                                type="primary"
-                                icon="cloud-upload-o"
-                                size="large">
-                                提交文章
-                            </Button>
-                        </div>
-
-
-                    </div>
-                    <div className="ant-layout-footer">
-                        52DOIT 版权所有 © 2016 由不拽注定被甩~技术支持
-                    </div>
-                </div>
+            <div id="page" className="page add-article-page">
+                { this.renderSortSelect() }
+                <Input onChange={this.titleChangeHandler.bind(this)} style={{ width: 470 }} size="large" placeholder="文章名称"/>
+                <UeditorComponent
+                    id="content"
+                    width="820"
+                    height="400"
+                />
+                { this.renderTag() }
+                <Button
+                    onClick={this.submitClickHandler.bind(this)}
+                    loading={this.props.loading}
+                    type="primary"
+                    icon="cloud-upload-o"
+                    size="large">
+                    提交文章
+                </Button>
             </div>
         );
     }

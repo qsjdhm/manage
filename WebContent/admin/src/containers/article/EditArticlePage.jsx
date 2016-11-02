@@ -21,16 +21,11 @@ import {
 } from '../../actions/article/editArticle';
 
 
-import { Modal, Input, Popconfirm, Button, message, Row, Col } from 'antd';
+import { Modal, Input, Popconfirm, Button, message } from 'antd';
 
-import MenuComponent       from '../../components/menu/js/MenuComponent';
-import SearchComponent     from '../../components/search/js/SearchComponent';
-import ToolBarComponent    from '../../components/toolbar/js/ToolBarComponent';
-import BreadcrumbComponent from '../../components/breadcrumb/js/BreadcrumbComponent';
 import SelectComponent     from '../../components/select/js/SelectComponent';
 import TableComponent      from '../../components/table/js/TableComponent';
 import PaginationComponent from '../../components/pagination/js/PaginationComponent';
-import fetchComponent      from '../../components/fetch/js/fetchComponent';
 import UeditorComponent    from '../../components/ueditor/js/UeditorComponent';
 import TagComponent        from '../../components/tag/js/TagComponent';
 
@@ -205,52 +200,23 @@ export class EditArticlePage extends React.Component {
 
     render() {
         return (
-            <div>
-                <MenuComponent openSubMenu={this.props.route.sort} selectedMenu={this.props.route.bpath} />
-                <div className="ant-layout-main">
-                    <div className="ant-layout-header">
-                        <Row>
-                            <Col span={4}>
-                                <SearchComponent
-                                    placeholder="快速菜单入口"
-                                    style={{ width: 230 }}
-                                />
-                            </Col>
-                            <Col span={12} offset={8}>
-                                <ToolBarComponent
-                                />
-                            </Col>
-                        </Row>
-                    </div>
-                    <div id="container" className="ant-layout-container">
-                        <div className="ant-layout-content">
-                            <BreadcrumbComponent
-                                data={this.props.routes}
-                            />
-                        </div>
-                        <div id="page" className="page edit-article-page">
-                            { this.renderSortSelect() }
-                            { this.renderTableList() }
-                            { this.renderPaginationList() }
-                        </div>
+            <div id="page" className="page edit-article-page">
+                { this.renderSortSelect() }
+                { this.renderTableList() }
+                { this.renderPaginationList() }
 
-                        <Modal title="修改文章详细信息"
-                               width="840"
-                               style={{ top: 20 }}
-                               visible={this.props.modelVisible}
-                               onOk={this.handleOk.bind(this)}
-                               onCancel={this.handleCancel.bind(this)}>
+                <Modal title="修改文章详细信息"
+                       width="840"
+                       style={{ top: 20 }}
+                       visible={this.props.modelVisible}
+                       onOk={this.handleOk.bind(this)}
+                       onCancel={this.handleCancel.bind(this)}>
 
-                            { this.renderModelSortList() }
-                            <Input value={this.props.modelSaveTitle} onChange={this.modelTitleChangeHandler.bind(this)}  style={{ width: 430 }} size="large" placeholder=""/>
-                            { this.renderModelUeditor() }
-                            { this.renderModelTag() }
-                        </Modal>
-                    </div>
-                    <div className="ant-layout-footer">
-                        52DOIT 版权所有 © 2016 由不拽注定被甩~技术支持
-                    </div>
-                </div>
+                    { this.renderModelSortList() }
+                    <Input value={this.props.modelSaveTitle} onChange={this.modelTitleChangeHandler.bind(this)}  style={{ width: 430 }} size="large" placeholder=""/>
+                    { this.renderModelUeditor() }
+                    { this.renderModelTag() }
+                </Modal>
             </div>
         );
     }

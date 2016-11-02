@@ -18,16 +18,11 @@ import {
 } from '../../actions/recom/noteRecom';
 
 
-import { Modal, Form, Input, Popconfirm, Button, message, Row, Col } from 'antd';
+import { Modal, Form, Input, Popconfirm, Button, message } from 'antd';
 
-import MenuComponent       from '../../components/menu/js/MenuComponent';
-import SearchComponent     from '../../components/search/js/SearchComponent';
-import ToolBarComponent    from '../../components/toolbar/js/ToolBarComponent';
-import BreadcrumbComponent from '../../components/breadcrumb/js/BreadcrumbComponent';
 import SelectComponent     from '../../components/select/js/SelectComponent';
 import TableComponent      from '../../components/table/js/TableComponent';
 import PaginationComponent from '../../components/pagination/js/PaginationComponent';
-import fetchComponent      from '../../components/fetch/js/fetchComponent';
 
 import '../../css/note.less';
 
@@ -143,58 +138,29 @@ export class NoteRecomPage extends React.Component {
     render() {
         const FormItem = Form.Item;
         return (
-            <div>
-                <MenuComponent openSubMenu={this.props.route.sort} selectedMenu={this.props.route.bpath} />
-                <div className="ant-layout-main">
-                    <div className="ant-layout-header">
-                        <Row>
-                            <Col span={4}>
-                                <SearchComponent
-                                    placeholder="快速菜单入口"
-                                    style={{ width: 230 }}
-                                />
-                            </Col>
-                            <Col span={12} offset={8}>
-                                <ToolBarComponent
-                                />
-                            </Col>
-                        </Row>
-                    </div>
-					<div id="container" className="ant-layout-container">
-                        <div className="ant-layout-content">
-                            <BreadcrumbComponent
-                                data={this.props.routes}
-                            />
-                        </div>
-                        <div id="page" className="page edit-note-page">
-                            { this.renderSortSelect() }
-                            { this.renderTableList() }
-                            { this.renderPaginationList() }
-                        </div>
+            <div id="page" className="page edit-note-page">
+                { this.renderSortSelect() }
+                { this.renderTableList() }
+                { this.renderPaginationList() }
 
-                        <Modal title="修改笔记推荐信息"
-                               width="840"
-                               style={{ top: 20 }}
-                               visible={this.props.modelVisible}
-                               onOk={this.handleOk.bind(this)}
-                               onCancel={this.handleCancel.bind(this)}>
+                <Modal title="修改笔记推荐信息"
+                       width="840"
+                       style={{ top: 20 }}
+                       visible={this.props.modelVisible}
+                       onOk={this.handleOk.bind(this)}
+                       onCancel={this.handleCancel.bind(this)}>
 
-                            <Form horizontal>
-                                <FormItem
-                                    label="笔记推荐量">
-                                    <Input style={{width:400}} value={this.props.modelSaveRecom} onChange={this.modelRecomChangeHandler.bind(this)} placeholder="" size="large"/>
-                                </FormItem>
-                                <FormItem
-                                    label="笔记阅读量">
-                                    <Input style={{width:400}} value={this.props.modelSaveRead} onChange={this.modelReadChangeHandler.bind(this)} placeholder="" size="large"/>
-                                </FormItem>
-                            </Form>
-                        </Modal>
-                    </div>
-                    <div className="ant-layout-footer">
-                        52DOIT 版权所有 © 2016 由不拽注定被甩~技术支持
-                    </div>
-                </div>
+                    <Form horizontal>
+                        <FormItem
+                            label="笔记推荐量">
+                            <Input style={{width:400}} value={this.props.modelSaveRecom} onChange={this.modelRecomChangeHandler.bind(this)} placeholder="" size="large"/>
+                        </FormItem>
+                        <FormItem
+                            label="笔记阅读量">
+                            <Input style={{width:400}} value={this.props.modelSaveRead} onChange={this.modelReadChangeHandler.bind(this)} placeholder="" size="large"/>
+                        </FormItem>
+                    </Form>
+                </Modal>
             </div>
         );
     }

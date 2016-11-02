@@ -16,16 +16,11 @@ import {
 	updateSort
 } from '../../actions/sort/editSort';
 
-import { Modal, Form, Input, Icon, message, Row, Col } from 'antd';
+import { Modal, Form, Input, Icon, message } from 'antd';
 
-import MenuComponent       from '../../components/menu/js/MenuComponent';
-import SearchComponent     from '../../components/search/js/SearchComponent';
-import ToolBarComponent    from '../../components/toolbar/js/ToolBarComponent';
-import BreadcrumbComponent from '../../components/breadcrumb/js/BreadcrumbComponent';
 import SelectComponent     from '../../components/select/js/SelectComponent';
 import TableComponent      from '../../components/table/js/TableComponent';
 import PaginationComponent from '../../components/pagination/js/PaginationComponent';
-import fetchComponent      from '../../components/fetch/js/fetchComponent';
 
 import '../../css/sort.less';
 
@@ -172,55 +167,27 @@ export class EditSortPage extends React.Component {
 		const FormItem = Form.Item;
 
 		return (
-			<div>
-				<MenuComponent openSubMenu={this.props.route.sort} selectedMenu={this.props.route.bpath} />
-				<div className="ant-layout-main">
-					<div className="ant-layout-header">
-						<Row>
-							<Col span={4}>
-								<SearchComponent
-									placeholder="快速菜单入口"
-									style={{ width: 230 }}
-								/>
-							</Col>
-							<Col span={12} offset={8}>
-								<ToolBarComponent
-								/>
-							</Col>
-						</Row>
-					</div>
-					<div id="container" className="ant-layout-container">
-						<div className="ant-layout-content">
-							<BreadcrumbComponent
-								data={this.props.routes}
-							/>
-						</div>
-                        <div id="page" className="page edit-sort-page">
-                            { this.renderFSortSelect() }
-							{ this.renderTableList() }
-							{ this.renderPaginationList() }
-                        </div>
-						<Modal title="修改分类详细信息"
-							   visible={this.props.modelVisible}
-							   onOk={this.handleOk.bind(this)}
-							   onCancel={this.handleCancel.bind(this)}>
-							<Form horizontal>
-								<FormItem
-									label="所属父类">
-									{ this.renderModelSortList() }
-								</FormItem>
-								<FormItem
-									label="分类名称">
-									<Input value={this.props.modelSaveName} onChange={this.modelNameChangeHandler.bind(this)} placeholder="" size="large"/>
-								</FormItem>
-							</Form>
-						</Modal>
-					</div>
-					<div className="ant-layout-footer">
-						52DOIT 版权所有 © 2016 由不拽注定被甩~技术支持
-					</div>
-				</div>
-			</div>
+            <div id="page" className="page edit-sort-page">
+                { this.renderFSortSelect() }
+                { this.renderTableList() }
+                { this.renderPaginationList() }
+
+                <Modal title="修改分类详细信息"
+                       visible={this.props.modelVisible}
+                       onOk={this.handleOk.bind(this)}
+                       onCancel={this.handleCancel.bind(this)}>
+                    <Form horizontal>
+                        <FormItem
+                            label="所属父类">
+                            { this.renderModelSortList() }
+                        </FormItem>
+                        <FormItem
+                            label="分类名称">
+                            <Input value={this.props.modelSaveName} onChange={this.modelNameChangeHandler.bind(this)} placeholder="" size="large"/>
+                        </FormItem>
+                    </Form>
+                </Modal>
+            </div>
 		);
 	}
 };

@@ -18,14 +18,9 @@ import {
     loadingChange
 } from '../../actions/book/addBook';
 
-import { Form, Upload, Input, Button, Icon, message, Row, Col } from 'antd';
+import { Form, Upload, Input, Button, Icon, message } from 'antd';
 
-import MenuComponent       from '../../components/menu/js/MenuComponent';
-import SearchComponent     from '../../components/search/js/SearchComponent';
-import ToolBarComponent    from '../../components/toolbar/js/ToolBarComponent';
-import BreadcrumbComponent from '../../components/breadcrumb/js/BreadcrumbComponent';
 import SelectComponent     from '../../components/select/js/SelectComponent';
-import fetchComponent      from '../../components/fetch/js/fetchComponent';
 
 
 
@@ -119,80 +114,45 @@ export class AddBookPage extends React.Component {
         };
 
         return (
-            <div>
-                <MenuComponent openSubMenu={this.props.route.sort} selectedMenu={this.props.route.bpath} />
-                <div className="ant-layout-main">
-                    <div className="ant-layout-header">
-                        <Row>
-                            <Col span={4}>
-                                <SearchComponent
-                                    placeholder="快速菜单入口"
-                                    style={{ width: 230 }}
-                                />
-                            </Col>
-                            <Col span={12} offset={8}>
-                                <ToolBarComponent
-                                />
-                            </Col>
-                        </Row>
-                    </div>
-                    <div className="ant-layout-container">
-                        <div className="ant-layout-content">
-                            <BreadcrumbComponent
-                                data={this.props.routes}
-                            />
-                        </div>
-                        <div id="page" className="page add-book-page">
-                            <Form horizontal>
-                                <FormItem
-                                    label="图书封面">
-                                    <Upload {...updateProps}>
-                                        <Button className="uploader-btn" type="ghost">
-                                            <Icon type="upload" /> 点击上传
-                                        </Button>
-                                    </Upload>
-                                </FormItem>
-                                <FormItem
-                                    label="图书分类">
-                                    { this.renderSortSelect() }
-                                </FormItem>
+            <div id="page" className="page add-book-page">
+                <Form horizontal>
+                    <FormItem
+                        label="图书封面">
+                        <Upload {...updateProps}>
+                            <Button className="uploader-btn" type="ghost">
+                                <Icon type="upload" /> 点击上传
+                            </Button>
+                        </Upload>
+                    </FormItem>
+                    <FormItem
+                        label="图书分类">
+                        { this.renderSortSelect() }
+                    </FormItem>
 
-                                <FormItem
-                                    label="图书名称">
-                                    <Input onChange={this.titleChangeHandler.bind(this)} placeholder="" size="large"/>
-                                </FormItem>
-                                <FormItem
-                                    label="图书高度">
-                                    <Input onChange={this.heightChangeHandler.bind(this)} placeholder="" size="large"/>
-                                </FormItem>
-                                <FormItem
-                                    label="下载路径">
-                                    <Input onChange={this.pathChangeHandler.bind(this)} type="textarea" rows="3" size="large"/>
-                                </FormItem>
-                                <FormItem
-                                    label="">
-                                    <Button
-                                        onClick={this.submitClickHandler.bind(this)}
-                                        loading={this.props.loading}
-                                        type="primary"
-                                        icon="cloud-upload-o"
-                                        size="large">
-                                        提交图书
-                                    </Button>
-                                </FormItem>
-                            </Form>
-
-
-
-
-                        </div>
-
-
-                    </div>
-                    <div className="ant-layout-footer">
-                        52DOIT 版权所有 © 2016 由不拽注定被甩~技术支持
-                    </div>
-                </div>
+                    <FormItem
+                        label="图书名称">
+                        <Input onChange={this.titleChangeHandler.bind(this)} placeholder="" size="large"/>
+                    </FormItem>
+                    <FormItem
+                        label="图书高度">
+                        <Input onChange={this.heightChangeHandler.bind(this)} placeholder="" size="large"/>
+                    </FormItem>
+                    <FormItem
+                        label="下载路径">
+                        <Input onChange={this.pathChangeHandler.bind(this)} type="textarea" rows="3" size="large"/>
+                    </FormItem>
+                    <FormItem
+                        label="">
+                        <Button
+                            onClick={this.submitClickHandler.bind(this)}
+                            loading={this.props.loading}
+                            type="primary"
+                            icon="cloud-upload-o"
+                            size="large">
+                            提交图书
+                        </Button>
+                    </FormItem>
+                </Form>
             </div>
         );
     }

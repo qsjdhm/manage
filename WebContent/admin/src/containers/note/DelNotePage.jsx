@@ -16,16 +16,11 @@ import {
 	loadingChange
 } from '../../actions/note/delNote';
 
-import { Popconfirm, Button, message, Row, Col } from 'antd';
+import { Popconfirm, Button, message } from 'antd';
 
-import MenuComponent       from '../../components/menu/js/MenuComponent';
-import SearchComponent     from '../../components/search/js/SearchComponent';
-import ToolBarComponent    from '../../components/toolbar/js/ToolBarComponent';
-import BreadcrumbComponent from '../../components/breadcrumb/js/BreadcrumbComponent';
 import SelectComponent     from '../../components/select/js/SelectComponent';
 import TableComponent      from '../../components/table/js/TableComponent';
 import PaginationComponent from '../../components/pagination/js/PaginationComponent';
-import fetchComponent      from '../../components/fetch/js/fetchComponent';
 
 import '../../css/note.less';
 
@@ -150,52 +145,22 @@ export class DelNotePage extends React.Component {
 
     render() {
         return (
-            <div>
-                <MenuComponent openSubMenu={this.props.route.sort} selectedMenu={this.props.route.bpath} />
-                <div className="ant-layout-main">
-                    <div className="ant-layout-header">
-                        <Row>
-                            <Col span={4}>
-                                <SearchComponent
-                                    placeholder="快速菜单入口"
-                                    style={{ width: 230 }}
-                                />
-                            </Col>
-                            <Col span={12} offset={8}>
-                                <ToolBarComponent
-                                />
-                            </Col>
-                        </Row>
-                    </div>
-					<div id="container" className="ant-layout-container">
-                        <div className="ant-layout-content">
-                            <BreadcrumbComponent
-                                data={this.props.routes}
-                            />
-                        </div>
-                        <div id="page" className="page del-note-page">
-                            { this.renderSortSelect() }
-							<div className="del-button">
-								<span>{this.props.hasSelected ? `选择了 ${this.props.selectedRowKeys.length} 篇笔记` : ''}</span>
-								<Popconfirm title="确定要删除选中的笔记吗？" placement="topRight" onConfirm={this.deleteClickHandler.bind(this)}>
-									<Button type="primary"
-											disabled={!this.props.hasSelected}
-											loading={this.props.loading}
-											icon="delete"
-											size="large">
-										删除笔记
-									</Button>
-								</Popconfirm>
-							</div>
-                            { this.renderTableList() }
-                            { this.renderPaginationList() }
-                        </div>
-
-                    </div>
-                    <div className="ant-layout-footer">
-                        52DOIT 版权所有 © 2016 由不拽注定被甩~技术支持
-                    </div>
+            <div id="page" className="page del-note-page">
+                { this.renderSortSelect() }
+                <div className="del-button">
+                    <span>{this.props.hasSelected ? `选择了 ${this.props.selectedRowKeys.length} 篇笔记` : ''}</span>
+                    <Popconfirm title="确定要删除选中的笔记吗？" placement="topRight" onConfirm={this.deleteClickHandler.bind(this)}>
+                        <Button type="primary"
+                                disabled={!this.props.hasSelected}
+                                loading={this.props.loading}
+                                icon="delete"
+                                size="large">
+                            删除笔记
+                        </Button>
+                    </Popconfirm>
                 </div>
+                { this.renderTableList() }
+                { this.renderPaginationList() }
             </div>
         );
     }
