@@ -15,9 +15,13 @@ export default class BreadcrumbComponent extends React.Component {
 
     render() {
         const breadcrumbItems = this.props.data.map((item, index) => {
-            return (
-                <Breadcrumb.Item key={index} href={item.bpath}> {item.name} </Breadcrumb.Item>
-            );
+            console.info(item);
+            //if (item.name == undefined) { }
+            //else {
+                return (
+                    <Breadcrumb.Item key={index} href={'#/'+item.path}> {item.name} </Breadcrumb.Item>
+                );
+            //}
         });
 
         return (

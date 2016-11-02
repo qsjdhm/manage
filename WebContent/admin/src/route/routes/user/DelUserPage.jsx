@@ -2,9 +2,8 @@
 // 删除用户路由
 module.exports = {
     path: 'delUser',
-    sort: 'User',
+    sort: '用户管理',
     name: '删除用户',
-    bpath: '#/delUser',
     getComponent(nextState, cb) {
         require.ensure([], (require) => {
             cb(null, require('../../../containers/user/DelUserPage').default)

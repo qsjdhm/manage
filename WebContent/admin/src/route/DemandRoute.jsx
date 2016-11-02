@@ -29,27 +29,26 @@ function redirectToHome(nextState, replace) {
     }
 }
 
+// 导出的这个类中的key都会在props中的routes中存在
 const rootRoute = {
     component: 'div',
-    //component: LoginPage,
-    //path: '/',
     childRoutes: [
         {
             onEnter: redirectToHome,
             name: '登录页',
             path: '/',
-            bpath: '#/',
             component: LoginPage
         },
         {
+            // 主架构页面
             onEnter: redirectToLogin,
-            name: '首页',
-            path: '/home',
-            bpath: '#/home',
+            name: '系统首页',
+            path: 'home',
             component: MainPage,
             indexRoute: {
-                name: '首页',
-                bpath: '#/home',
+                // 系统欢迎页
+                name: '系统首页',
+                //path: 'home',
                 component:  HomePage
             },
             childRoutes: [
