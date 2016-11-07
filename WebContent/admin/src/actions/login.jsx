@@ -7,10 +7,8 @@ import { message }         from 'antd';
 export const CHANGE_USERNAME = "CHANGE_USERNAME";
 export const CHANGE_PASSWORD = "CHANGE_PASSWORD";
 
-
 export const changeUserName = cac( CHANGE_USERNAME, "value" );
 export const changePassword = cac( CHANGE_PASSWORD, "value" );
-
 
 export function loginSystem () {
 	return ( dispatch, getState ) => {
@@ -23,7 +21,8 @@ export function loginSystem () {
         const errInfo = "登录连接出错！";
         fetchComponent.send(this, url, method, body, errInfo, function(cbData){
             if(cbData.success === "1"){
-                localStorage["doitToken"] = "luanxiede";
+                localStorage["manageTokenCode"] = "这里应该是一串登录码";
+                localStorage["manageTokenName"] = "超级管理员 - 张岩";
                 window.location.href = ENV.baseUrl + "/admin/#/home";
             } else {
                 message.error(cbData.msg);

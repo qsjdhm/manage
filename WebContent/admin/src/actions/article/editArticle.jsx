@@ -176,7 +176,6 @@ export function modelSaveSortIdChange (sortId) {
 // 设置弹出层中分类NAME改变事件
 export function modelSaveSortNameChange (sortName) {
 	return (dispatch, getState) => {
-		console.info(sortName);
 		dispatch(setModelSaveSortName(sortName));
 	}
 }

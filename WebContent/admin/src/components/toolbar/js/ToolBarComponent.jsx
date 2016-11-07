@@ -8,8 +8,8 @@ import '../css/toolbar.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
-import { Icon } from 'antd';
-import auth from '../../../utils/auth'
+import { Dropdown, Menu, Icon } from 'antd';
+import auth from '../../../utils/auth';
 
 
 export default class ToolBarComponent extends React.Component {
@@ -22,21 +22,38 @@ export default class ToolBarComponent extends React.Component {
     }
 
     render() {
+        const menu = (
+            <Menu>
+                <Menu.Item>
+                    <a href="https://github.com/qsjdhm">
+                        <Icon type="user" />
+                        <span>用户中心</span>
+                    </a>
+                </Menu.Item>
+                <Menu.Item>
+                    <a href="https://github.com/qsjdhm">
+                        <Icon type="phone" />
+                        <span>帮助</span>
+                    </a>
+                </Menu.Item>
+                <Menu.Item>
+                    <a onClick={this.logout.bind(this)}>
+                        <Icon type="logout" />
+                        <span>退出</span>
+                    </a>
+                </Menu.Item>
+            </Menu>
+        );
+
         return (
             <div className="toolbar-component">
-                <a href="http://52doit.com/">
-                    <Icon type="customerservice" />
-                    在线咨询
-                </a>
-                <a href="https://github.com/qsjdhm">
-                    <Icon type="github" />
-                    不拽注定被甩~
-                </a>
-                <a onClick={this.logout.bind(this)} >
-                    <Icon type="logout" />
-                    退出
-                </a>
+                <Dropdown overlay={menu}>
+                    <a className="ant-dropdown-link" href="#">
+                        <span>{this.props.manageName}</span>
+                        <Icon type="down"/>
+                    </a>
+                </Dropdown>
             </div>
         );
-    }
+    };
 };

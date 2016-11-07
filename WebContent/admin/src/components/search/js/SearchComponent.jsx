@@ -12,31 +12,6 @@ export default class SearchComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data : [
-                {"id":"#/home/addArticle",      "name":"新增文章"},
-                {"id":"#/home/editArticle",     "name":"编辑文章"},
-                {"id":"#/home/delArticle",      "name":"删除文章"},
-                {"id":"#/home/addNote",         "name":"新增笔记"},
-                {"id":"#/home/editNote",        "name":"编辑笔记"},
-                {"id":"#/home/delNote",         "name":"删除笔记"},
-                {"id":"#/home/addBook",         "name":"新增图书"},
-                {"id":"#/home/editBook",        "name":"编辑图书"},
-                {"id":"#/home/delBook",         "name":"删除图书"},
-                {"id":"#/home/editComment",     "name":"编辑评论"},
-                {"id":"#/home/delComment",      "name":"删除评论"},
-                {"id":"#/home/addLink",         "name":"新增外链"},
-                {"id":"#/home/editLink",        "name":"编辑外链"},
-                {"id":"#/home/delLink",         "name":"删除外链"},
-                {"id":"#/home/addSort",         "name":"新增分类"},
-                {"id":"#/home/editSort",        "name":"编辑分类"},
-                {"id":"#/home/delSort",         "name":"删除分类"},
-                {"id":"#/home/articleRecom",    "name":"文章推荐量"},
-                {"id":"#/home/noteRecom",       "name":"笔记推荐量"},
-                {"id":"#/home/bookRecom",       "name":"图书推荐量"},
-                {"id":"#/home/addUser",         "name":"新增用户"},
-                {"id":"#/home/editUser",        "name":"编辑用户"},
-                {"id":"#/home/delUser",         "name":"删除用户"}
-            ],
             value: "",
             focus: false
         };
@@ -62,9 +37,9 @@ export default class SearchComponent extends React.Component {
             'ant-search-input': true,
             'ant-search-input-focus': this.state.focus
         });
-        const optionItems = this.state.data.map((item, index) => {
+        const optionItems = this.props.menuList.map((item, index) => {
             return (
-                <Select.Option key={item.id}> {item.name} </Select.Option>
+                <Select.Option key={'#'+item.path}> {item.name} </Select.Option>
             );
         });
         return (

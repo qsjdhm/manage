@@ -1,14 +1,14 @@
 module.exports = {
   login(email, pass, cb) {
     cb = arguments[arguments.length - 1]
-    if (localStorage.doitToken) {
+    if (localStorage.manageTokenCode) {
       if (cb) cb(true)
       this.onChange(true)
       return
     }
     pretendRequest(email, pass, (res) => {
       if (res.authenticated) {
-        localStorage.doitToken = res.token
+        localStorage.manageTokenCode = res.token
         if (cb) cb(true)
         this.onChange(true)
       } else {
@@ -19,11 +19,11 @@ module.exports = {
   },
 
   getToken: function () {
-    return localStorage.doitToken
+    return localStorage.manageTokenCode
   },
 
   logout: function (cb) {
-    delete localStorage.doitToken;
+    delete localStorage.manageTokenCode;
     window.location.href = "#/";
     if (cb) cb()
     this.onChange(false)
@@ -31,7 +31,7 @@ module.exports = {
 
   loggedIn: function () {
     //  return false
-    return !!localStorage.doitToken
+    return !!localStorage.manageTokenCode
   },
 
   onChange: function () {}

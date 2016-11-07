@@ -9,11 +9,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
-import {
-    //currentRoutesChange
-} from '../actions/main';
-
-
 import { Row, Col } from 'antd';
 
 import MenuComponent       from '../components/menu/js/MenuComponent';
@@ -40,10 +35,12 @@ export class MainPage extends React.Component {
                                     <SearchComponent
                                         placeholder="快速菜单入口"
                                         style={{ width: 230 }}
+                                        menuList={this.props.common.menuList}
                                     />
                                 </Col>
                                 <Col span={12} offset={8}>
-                                    <ToolBarComponent
+                                    {/*因为登录的时候已经把用户名写到本地数据库了，所以这里只需要获取就行了*/}
+                                    <ToolBarComponent manageName={localStorage["manageTokenName"]}
                                     />
                                 </Col>
                             </Row>
@@ -55,7 +52,7 @@ export class MainPage extends React.Component {
                                 />
                             </div>
 
-                            {/* 渲染子组件 */}
+                            {/* 渲染子页面 */}
                             {this.props.children}
 
                         </div>
@@ -72,7 +69,7 @@ export class MainPage extends React.Component {
 
 
 function mapStateToProps ( state ) {
-    return Object.assign({}, state.main);
+    return Object.assign({}, state);
 }
 
 export default connect( mapStateToProps )( MainPage );

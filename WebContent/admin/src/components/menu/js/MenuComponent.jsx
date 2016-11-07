@@ -17,13 +17,12 @@ export default class MenuComponent extends React.Component {
     }
 
     render() {
-        console.info(this.props.openSubMenu);
-        console.info(this.props.selectedMenu);
         return (
             <div className="ant-layout-aside">
                 <aside className="ant-layout-sider">
                     <div className="ant-layout-logo">
                         <img src={require("../img/logo.png")} />
+                        <span>MANAGE</span>
                     </div>
                     <Menu
 	                    mode="inline"

@@ -53,7 +53,7 @@ class LoginPage extends React.Component {
 };
 
 function mapStateToProps ( state ) {
-	return {}
+    return Object.assign({}, state);
 }
 
 export default connect( mapStateToProps )( LoginPage );
