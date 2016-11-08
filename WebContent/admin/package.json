@@ -1,7 +1,7 @@
 {
   "name": "manage",
-  "version": "0.1.0",
-  "description": "个人网站后台系统",
+  "version": "0.1.1",
+  "description": "MANAGE数据管理平台",
   "license": "MIT",
   "scripts": {
     "init": "webpack --config build/webpack.dev.js",

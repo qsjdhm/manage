@@ -27,7 +27,9 @@ export class MainPage extends React.Component {
                 <div>
                     <MenuComponent
                         openSubMenu={this.props.routes[2].sort}
-                        selectedMenu={this.props.routes[2].name} />
+                        selectedMenu={this.props.routes[2].name}
+						menuList={this.props.common.menuList}
+					/>
                     <div className="ant-layout-main">
                         <div className="ant-layout-header">
                             <Row>

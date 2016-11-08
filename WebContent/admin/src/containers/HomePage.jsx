@@ -17,7 +17,7 @@ export class HomePage extends React.Component {
     render() {
         return (
             <div id="page" className="page home-page">
-                <CardComponent
+                <CardComponent menuList={this.props.common.menuList}
                 />
             </div>
         );

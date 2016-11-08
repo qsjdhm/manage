@@ -6,6 +6,7 @@ import React from 'react';
 import { Input, Select, Button, Icon } from 'antd';
 import classNames from 'classnames';
 import 'antd/dist/antd.css';
+import '../css/search.less';
 
 
 export default class SearchComponent extends React.Component {
@@ -28,6 +29,24 @@ export default class SearchComponent extends React.Component {
         console.info(value);
     }
 
+	renderOptGroup () {
+		const optionGroup = this.props.menuList.map((item, index) => {
+
+			let optionItem = item.subMenu.map((subItem, subIndex) => {
+				return (
+					<Select.Option key={'#'+subItem.path} >{subItem.name}</Select.Option>
+				);
+			});
+
+			return (
+				<Select.OptGroup label={item.name}>
+					{optionItem}
+				</Select.OptGroup>
+			);
+		});
+		return optionGroup;
+	}
+
     render() {
         const btnCls = classNames({
             'ant-search-btn': true,
@@ -37,13 +56,8 @@ export default class SearchComponent extends React.Component {
             'ant-search-input': true,
             'ant-search-input-focus': this.state.focus
         });
-        const optionItems = this.props.menuList.map((item, index) => {
-            return (
-                <Select.Option key={'#'+item.path}> {item.name} </Select.Option>
-            );
-        });
         return (
-            <div className="ant-search-input-wrapper" style={this.props.style}>
+            <div className="ant-search-input-wrapper search-package" style={this.props.style}>
                 <Input.Group className={searchCls}>
                     <Select
                         showSearch
@@ -54,7 +68,7 @@ export default class SearchComponent extends React.Component {
                         notFoundContent="无法找到"
                         onSelect={this.handleSelect}
                         onChange={this.handleChange}>
-                        {optionItems}
+                        {this.renderOptGroup()}
                     </Select>
                     <div className="ant-input-group-wrap">
                         <Button size="large" className={btnCls} onClick={this.handleSubmit}>

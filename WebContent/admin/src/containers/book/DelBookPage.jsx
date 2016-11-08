@@ -107,7 +107,7 @@ export class DelBookPage extends React.Component {
 
 
             // 表格的配置
-            const scroll = { y: 350, x: totalWidth };
+			const scroll = { y: totalHeight, x: totalWidth };
 
             return <TableComponent
                 tableColumns={tableColumns}
