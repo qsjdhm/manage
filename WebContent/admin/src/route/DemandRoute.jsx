@@ -54,6 +54,7 @@ const rootRoute = {
             childRoutes: [
                 require('./routes/article/AddArticlePage'),
                 require('./routes/article/EditArticlePage'),
+				require('./routes/article/EditArticleDetailPage'),
                 require('./routes/article/DelArticlePage'),
 
                 require('./routes/note/AddNotePage'),

@@ -84,28 +84,36 @@ export class EditArticlePage extends React.Component {
             const dateWidth      = totalWidth * 0.1766;
             const operationWidth = totalWidth * 0.0656;
 
-            let tableColumns = [
-                { title: 'ID', width: idWidth, dataIndex: 'Article_ID', key: 'Article_ID' },
-                { title: '名称', width: titleWidth, dataIndex: 'Article_Title', key: 'Article_Title' },
-                { title: '分类', width: sortWidth, dataIndex: 'Sort_Name', key: 'Sort_Name' },
-                { title: '推荐量', width: recomWidth, dataIndex: 'Recommend_Num', key: 'Recommend_Num' },
-                { title: '点击量', width: readWidth, dataIndex: 'Read_Num', key: 'Read_Num' },
-                { title: '时间', width: dateWidth, dataIndex: 'Article_Date', key: 'Article_Date' }
-                //, { title: '操作', width: operationWidth, dataIndex: '', key: 'operation', render: (index, item) => <a href='javascript:void(0)' onClick={self.openEditModel.bind(null, index, item)}>修改</a> },
-            ];
-
+			// 设置表格操作列配置
+			let tableColumns = [
+				{ title: 'ID', width: idWidth, dataIndex: 'Article_ID', key: 'Article_ID' },
+				{
+					title: '名称',
+					width: titleWidth,
+					dataIndex: 'Article_Title',
+					key: 'Article_Title',
+					render(index, item) {
+						return <a href='javascript:void(0)' onClick={self.detailClick.bind(self, index, item)}>{item.Article_Title}</a>
+					}
+				},
+				{ title: '分类', width: sortWidth, dataIndex: 'Sort_Name', key: 'Sort_Name' },
+				{ title: '推荐量', width: recomWidth, dataIndex: 'Recommend_Num', key: 'Recommend_Num' },
+				{ title: '点击量', width: readWidth, dataIndex: 'Read_Num', key: 'Read_Num' },
+				{ title: '时间', width: dateWidth, dataIndex: 'Article_Date', key: 'Article_Date' },
+				{
+					title: '操作',
+					width: operationWidth,
+					dataIndex: 'operation',
+					key: 'operation',
+					render(index, item) {
+						return <a href='javascript:void(0)' onClick={self.operationClick.bind(self, index, item)}>修改</a>
+					}
+				}
+			];
 
 
             // 设置表格操作列配置
-            tableColumns.push({
-                title: '操作',
-                width: operationWidth,
-                dataIndex: 'operation',
-                key: 'operation',
-                render(index, item) {
-                    return <a href='javascript:void(0)' onClick={self.operationClick.bind(self, index, item)}>修改</a>
-                }
-            });
+            tableColumns.push();
 
             // 表格的配置
             const expandedRowRender = record => <p>{record.Article_Content}</p>;
@@ -121,6 +129,11 @@ export class EditArticlePage extends React.Component {
                 scroll={scroll}/>
         }
     }
+
+	detailClick (index, item) {
+		window.location.href = '#/home/editArticle/'+item.Article_ID;
+		//this.props.dispatch(getArticle(item.Article_ID));
+	}
 
     operationClick (index, item) {
         this.props.dispatch(getArticle(item.Article_ID));

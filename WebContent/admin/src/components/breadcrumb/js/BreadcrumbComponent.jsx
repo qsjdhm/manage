@@ -15,6 +15,7 @@ export default class BreadcrumbComponent extends React.Component {
 
     render() {
         const breadcrumbItems = this.props.data.map((item, index) => {
+			console.info(item);
             if (item.path == undefined) {
                 // 添加个空的span
                 return <span key={index}></span>;
