@@ -8,22 +8,26 @@ import jQuery              from 'jquery';
 // 页面所使用的事件
 export const SET_SORT_LIST = 'SET_SORT_LIST';
 export const SET_TAG_LIST = 'SET_TAG_LIST';
+export const SET_DEFAULT_SELECTED_SORT_ID = 'SET_DEFAULT_SELECTED_SORT_ID';
 export const SET_SELECTED_SORT_ID = 'SET_SELECTED_SORT_ID';
 export const SET_SELECTED_SORT_NAME = 'SET_SELECTED_SORT_NAME';
 export const SET_ID = 'SET_ID';
 export const SET_TITLE = 'SET_TITLE';
 export const SET_CONTENT = 'SET_CONTENT';
 export const SET_SELECTED_TAG = 'SET_SELECTED_TAG';
+export const SET_DISABLED = 'SET_DISABLED';
 export const SET_LOADING = 'SET_LOADING';
 
 const setSortList = cac(SET_SORT_LIST, 'data');
 const setTagList = cac(SET_TAG_LIST, 'data');
+const setDefaultSelectedSortId = cac(SET_DEFAULT_SELECTED_SORT_ID, 'data');
 const setSelectedSortId = cac(SET_SELECTED_SORT_ID, 'data');
 const setSelectedSortName = cac(SET_SELECTED_SORT_NAME, 'data');
 const setId = cac(SET_ID, 'data');
 const setTitle = cac(SET_TITLE, 'data');
 const setContent = cac(SET_CONTENT, 'data');
 const setSelectedTag = cac(SET_SELECTED_TAG, 'data');
+const setDisabled = cac(SET_DISABLED, 'data');
 const setLoading = cac(SET_LOADING, 'data');
 
 
@@ -37,16 +41,22 @@ export function getArticle () {
         };
         const errInfo = "请求文章信息连接出错！";
         fetchComponent.send(this, url, method, body, errInfo, function(data){
-            console.info(data);
-            dispatch(setSelectedSortId(data.sortId));
+            dispatch(setDefaultSelectedSortId(data.sortId));
+			dispatch(setSelectedSortId(data.sortId));
             dispatch(setSelectedSortName(data.sortName));
             dispatch(setTitle(data.title));
             dispatch(setContent(data.content));
             dispatch(setSelectedTag(data.tag));
+
+			setTimeout(function(){
+				console.info(222);
+				dispatch(setDisabled(false));
+			},2000);
+
+
         });
     }
 }
-
 
 // 获取文章分类列表
 export function getSortList () {
@@ -58,10 +68,7 @@ export function getSortList () {
         };
         const errInfo = '请求文章分类连接出错！';
         fetchComponent.send(this, url, method, body, errInfo, function(data){
-			dispatch(getTagList());
 			dispatch(setSortList(data.data));
-			dispatch(selectedSortIdChange(data.data[0].Sort_ID));
-            dispatch(selectedSortNameChange(data.data[0].Sort_Name));
         });
     }
 }
@@ -146,6 +153,15 @@ export function addArticle () {
             }
         });
     }
+}
+
+
+
+// 设置置灰状态事件
+export function disabledChange (disabled) {
+	return (dispatch, getState) => {
+		dispatch(setDisabled(disabled));
+	}
 }
 
 // 设置删除按钮的等待事件

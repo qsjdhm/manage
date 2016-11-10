@@ -24,12 +24,15 @@ class SelectComponent extends React.Component {
     }
 
 	componentWillReceiveProps (nextProps) {
-		if (nextProps.defaultValue !== this.props.defaultValue) {
+		if (
+			nextProps.defaultValue !== this.props.defaultValue ||
+			nextProps.disabled !== this.props.disabled
+		) {
 			this.setState({
 				dom: false
 			});
 
-			let {data, defaultValue} = nextProps;
+			let {data, defaultValue,disabled} = nextProps;
 			const optionItems = data.map(function(item){
 				return (
 					<Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>
@@ -41,6 +44,7 @@ class SelectComponent extends React.Component {
 				self.setState({
 					dom: <Select
 						size="large"
+						disabled={disabled}
 						defaultValue={defaultValue}
 						style={{ width: 200 }}
 						placeholder="请选择选项"
@@ -56,7 +60,7 @@ class SelectComponent extends React.Component {
 	}
 
 	componentWillMount () {
-		let {data, defaultValue} = this.props;
+		let {data, defaultValue,disabled} = this.props;
 		const optionItems = data.map(function(item){
 			return (
 				<Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>
@@ -65,6 +69,7 @@ class SelectComponent extends React.Component {
 		this.setState({
 			dom: <Select
 				size="large"
+				disabled={disabled}
 				defaultValue={defaultValue}
 				style={{ width: 200 }}
 				placeholder="请选择选项"

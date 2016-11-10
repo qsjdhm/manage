@@ -3,12 +3,14 @@ import {cr} from '../../utils/index';
 import {
     SET_SORT_LIST,
     SET_TAG_LIST,
+	SET_DEFAULT_SELECTED_SORT_ID,
     SET_SELECTED_SORT_ID,
     SET_SELECTED_SORT_NAME,
     SET_ID,
     SET_TITLE,
     SET_CONTENT,
     SET_SELECTED_TAG,
+	SET_DISABLED,
     SET_LOADING
 } from '../../actions/article/detailArticle';
 
@@ -34,6 +36,12 @@ export default combineReducers({
             return tagArray;
         }
     }),
+	// select组件特殊，要多留一个default值赋给defaultValue属性
+	defaultSelectedSortId: cr('', {
+		[SET_DEFAULT_SELECTED_SORT_ID](state, {data}){
+			return data;
+		}
+	}),
     // 设置当前选中的分类ID
     selectedSortId: cr('', {
         [SET_SELECTED_SORT_ID](state, {data}){return data}
@@ -56,8 +64,14 @@ export default combineReducers({
     }),
     // 设置文章选中的标签
     selectedTag: cr([], {
-        [SET_SELECTED_TAG](state, {data}){return data}
+        [SET_SELECTED_TAG](state, {data}){
+			return data.split(",");
+		}
     }),
+	// 设置内容是否可编辑
+	disabled: cr(true, {
+		[SET_DISABLED](state, {data}){return data;}
+	}),
     // 新增按钮是否等待
     loading: cr(false, {
         [SET_LOADING](state, {data}){return data;}
