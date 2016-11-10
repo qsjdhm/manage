@@ -15,12 +15,23 @@ export default class BreadcrumbComponent extends React.Component {
 
     render() {
         const breadcrumbItems = this.props.data.map((item, index) => {
-			console.info(item);
-            if (item.path == undefined) {
+            if (item.path == undefined || item.name == undefined ) {
                 // 添加个空的span
                 return <span key={index}></span>;
             } else {
-                return <Breadcrumb.Item key={index} href={'#/'+item.path}> {item.name} </Breadcrumb.Item>;
+                if (item.path === 'home') {
+                    return <Breadcrumb.Item key={index} href={'#/'+item.path}> {item.name} </Breadcrumb.Item>;
+                } else if (item.path.split('editArticle/:id').length > 1) {
+                    return (
+                        <span>
+                            <Breadcrumb.Item key={index} href={'#/home/'+item.path.split('/:id')[0]}>{item.name}</Breadcrumb.Item>
+                            <span className='crumb-item-separator'>/</span>
+                            <span className='crumb-item-details'>详情</span>
+                        </span>
+                    );
+                } else {
+                    return <Breadcrumb.Item key={index} href={'#/home/'+item.path}> {item.name} </Breadcrumb.Item>;
+                }
             }
         });
 

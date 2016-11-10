@@ -131,12 +131,13 @@ export class EditArticlePage extends React.Component {
     }
 
 	detailClick (index, item) {
-		window.location.href = '#/home/editArticle/'+item.Article_ID;
+		window.location.href = '#/home/editArticle/association/'+item.Article_ID;
 		//this.props.dispatch(getArticle(item.Article_ID));
 	}
 
     operationClick (index, item) {
-        this.props.dispatch(getArticle(item.Article_ID));
+        //this.props.dispatch(getArticle(item.Article_ID));
+        window.location.href = '#/home/editArticle/'+item.Article_ID;
     }
 
     handleOk () {
@@ -217,7 +218,8 @@ export class EditArticlePage extends React.Component {
                 { this.renderSortSelect() }
                 { this.renderTableList() }
                 { this.renderPaginationList() }
-
+                {/* 渲染子页面 */}
+                {this.props.children}
                 <Modal title="修改文章详细信息"
                        width="840"
                        style={{ top: 20 }}

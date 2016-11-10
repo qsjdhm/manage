@@ -5,6 +5,7 @@ import login               from './login';
 
 import addArticle          from './article/addArticle';
 import editArticle         from './article/editArticle';
+import detailArticle       from './article/detailArticle';
 import delArticle          from './article/delArticle';
 
 import addNote             from './note/addNote';
@@ -43,6 +44,7 @@ const reducers = {
 
     addArticle,
     editArticle,
+    detailArticle,
     delArticle,
 
     addNote,

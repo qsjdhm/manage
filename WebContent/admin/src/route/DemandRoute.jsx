@@ -52,9 +52,10 @@ const rootRoute = {
                 component:  HomePage
             },
             childRoutes: [
+                // 这里的子路由是在框架内切换页面，每个子路由里面再有子路由是在子路由里面切换页面
                 require('./routes/article/AddArticlePage'),
                 require('./routes/article/EditArticlePage'),
-				require('./routes/article/EditArticleDetailPage'),
+				require('./routes/article/DetailArticlePage'),
                 require('./routes/article/DelArticlePage'),
 
                 require('./routes/note/AddNotePage'),

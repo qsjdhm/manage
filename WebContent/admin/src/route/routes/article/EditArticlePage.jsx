@@ -8,5 +8,16 @@ module.exports = {
         require.ensure([], (require) => {
             cb(null, require('../../../containers/article/EditArticlePage').default)
         })
-    }
+    },
+    childRoutes: [
+        {
+            path: 'association/:id',
+            sort: '文章管理',
+            getComponent(nextState, cb) {
+                require.ensure([], (require) => {
+                    cb(null, require('../../../containers/article/EditArticleAssociationPage').default)
+                })
+            }
+        }
+    ]
 };

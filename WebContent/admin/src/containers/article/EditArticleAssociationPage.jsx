@@ -16,7 +16,8 @@ import TagComponent        from '../../components/tag/js/TagComponent';
 
 import '../../css/article.less';
 
-export class EditArticlePage extends React.Component {
+// 每一条文章的关联表
+export class EditArticleAssociationPage extends React.Component {
     constructor (props) {
         super(props);
     }
@@ -25,7 +26,7 @@ export class EditArticlePage extends React.Component {
     render() {
         return (
             <div id="page" className="page edit-article-page">
-                abjhfabsjfhba
+                Association
             </div>
         );
     }
@@ -38,7 +39,7 @@ function mapStateToProps ( state ) {
     return Object.assign({}, state.editArticle);
 }
 
-export default connect( mapStateToProps )( EditArticlePage );
+export default connect( mapStateToProps )( EditArticleAssociationPage );
 
 
 

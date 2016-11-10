@@ -6,7 +6,7 @@ module.exports = {
     name: '编辑文章',
     getComponent(nextState, cb) {
         require.ensure([], (require) => {
-            cb(null, require('../../../containers/article/EditArticleDetailPage').default)
+            cb(null, require('../../../containers/article/DetailArticlePage').default)
         })
     }
 };
