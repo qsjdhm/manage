@@ -10,8 +10,7 @@ import {
     SET_TITLE,
     SET_CONTENT,
     SET_SELECTED_TAG,
-	SET_DISABLED,
-    SET_LOADING
+    SET_PAGE_LOADING
 } from '../../actions/article/detailArticle';
 
 
@@ -68,12 +67,9 @@ export default combineReducers({
 			return data.split(",");
 		}
     }),
-	// 设置内容是否可编辑
-	disabled: cr(true, {
-		[SET_DISABLED](state, {data}){return data;}
-	}),
-    // 新增按钮是否等待
-    loading: cr(false, {
-        [SET_LOADING](state, {data}){return data;}
+
+    // 页面获取数据前，是模糊等待状态
+    pageLoading: cr(true, {
+        [SET_PAGE_LOADING](state, {data}){return data;}
     })
 });

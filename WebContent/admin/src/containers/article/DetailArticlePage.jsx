@@ -16,11 +16,10 @@ import {
     contentChange,
     selectedTagChange,
     addArticle,
-	disabledChange,
-    loadingChange
+    pageLoadingChange
 } from '../../actions/article/detailArticle';
 
-import { Modal, Input, Popconfirm, Button, message } from 'antd';
+import { Modal, Spin, Input, Popconfirm, Button, message } from 'antd';
 
 import SelectComponent     from '../../components/select/js/SelectComponent';
 import UeditorComponent    from '../../components/ueditor/js/UeditorComponent';
@@ -34,6 +33,7 @@ export class DetailArticlePage extends React.Component {
         super(props);
     }
 
+
     componentWillMount () {
         // 获取当前文章内容
         this.props.dispatch( idChange(this.props.params.id) );
@@ -43,9 +43,9 @@ export class DetailArticlePage extends React.Component {
 		this.props.dispatch( getTagList() );
     }
 
+    // 页面销毁时，重置当前状态
 	componentWillUnmount () {
-		// 页面销毁时，重置当前状态
-		this.props.dispatch( disabledChange(true) );
+        this.props.dispatch( pageLoadingChange(true) );
 	}
 
 
@@ -56,7 +56,7 @@ export class DetailArticlePage extends React.Component {
                 defaultValue={this.props.defaultSelectedSortId}
                 data={this.props.sortList}
                 selected={this.sortChangeHandler.bind(this)}
-				disabled={this.props.disabled}/>
+            />
         }
     }
 
@@ -119,18 +119,25 @@ export class DetailArticlePage extends React.Component {
     render() {
         return (
             <div id="page" className="page add-article-page">
-                { this.renderSortSelect() }
-                <Input defaultValue={this.props.title} disabled={this.props.disabled} value={this.props.title} onChange={this.titleChangeHandler.bind(this)} style={{ width: 470 }} size="large" placeholder="文章名称"/>
-				{ this.renderUeditor() }
-                { this.renderTag() }
-                <Button
-                    onClick={this.submitClickHandler.bind(this)}
-                    loading={this.props.loading}
-                    type="primary"
-                    icon="cloud-upload-o"
-                    size="large">
-                    提交文章
-                </Button>
+                <Spin size="large" spinning={this.props.pageLoading}>
+                    { this.renderSortSelect() }
+                    <Input defaultValue={this.props.title}
+                           value={this.props.title}
+                           onChange={this.titleChangeHandler.bind(this)}
+                           style={{ width: 470 }}
+                           size="large"
+                           placeholder="文章名称"
+                    />
+                    { this.renderUeditor() }
+                    { this.renderTag() }
+                    <Button
+                        onClick={this.submitClickHandler.bind(this)}
+                        type="primary"
+                        icon="cloud-upload-o"
+                        size="large">
+                        提交修改
+                    </Button>
+                </Spin>
             </div>
         );
     }

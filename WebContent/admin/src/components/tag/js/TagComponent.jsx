@@ -24,12 +24,15 @@ export default class TagComponent extends React.Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        if (nextProps.defaultValue !== this.props.defaultValue) {
+        if (
+            nextProps.defaultValue !== this.props.defaultValue ||
+            nextProps.disabled !== this.props.disabled
+        ) {
             this.setState({
                 dom: false
             });
 
-            let {data, defaultValue} = this.props;
+            let {data, defaultValue,disabled} = nextProps;
             const optionItems = data.map(function(item){
                 return (
                     <Select.Option key={item.name} value={item.name}>{item.name}</Select.Option>
@@ -42,7 +45,8 @@ export default class TagComponent extends React.Component {
                     dom: <Select
                         tags
                         size="large"
-                        defaultValue={self.props.defaultValue}
+                        disabled={disabled}
+                        defaultValue={defaultValue}
                         style={{ width: self.props.width - 23 }}
                         placeholder="请选择备选标签"
                         optionFilterProp="children"
@@ -56,18 +60,18 @@ export default class TagComponent extends React.Component {
     }
 
     componentWillMount () {
-        let {data, defaultValue} = this.props;
+        let {data, defaultValue,disabled} = this.props;
         const optionItems = data.map(function(item){
             return (
                 <Select.Option key={item.name} value={item.name}>{item.name}</Select.Option>
             );
         });
 
-
         this.setState({
             dom: <Select
                 tags
                 size="large"
+                disabled={disabled}
                 defaultValue={defaultValue}
                 style={{ width: this.props.width - 23 }}
                 placeholder="请选择选项"

@@ -15,8 +15,7 @@ export const SET_ID = 'SET_ID';
 export const SET_TITLE = 'SET_TITLE';
 export const SET_CONTENT = 'SET_CONTENT';
 export const SET_SELECTED_TAG = 'SET_SELECTED_TAG';
-export const SET_DISABLED = 'SET_DISABLED';
-export const SET_LOADING = 'SET_LOADING';
+export const SET_PAGE_LOADING = 'SET_PAGE_LOADING';
 
 const setSortList = cac(SET_SORT_LIST, 'data');
 const setTagList = cac(SET_TAG_LIST, 'data');
@@ -27,8 +26,7 @@ const setId = cac(SET_ID, 'data');
 const setTitle = cac(SET_TITLE, 'data');
 const setContent = cac(SET_CONTENT, 'data');
 const setSelectedTag = cac(SET_SELECTED_TAG, 'data');
-const setDisabled = cac(SET_DISABLED, 'data');
-const setLoading = cac(SET_LOADING, 'data');
+const setPageLoading = cac(SET_PAGE_LOADING, 'data');
 
 
 // 根据文章ID获取文章全部信息
@@ -41,6 +39,7 @@ export function getArticle () {
         };
         const errInfo = "请求文章信息连接出错！";
         fetchComponent.send(this, url, method, body, errInfo, function(data){
+            // 设置页面元素内容
             dispatch(setDefaultSelectedSortId(data.sortId));
 			dispatch(setSelectedSortId(data.sortId));
             dispatch(setSelectedSortName(data.sortName));
@@ -48,12 +47,8 @@ export function getArticle () {
             dispatch(setContent(data.content));
             dispatch(setSelectedTag(data.tag));
 
-			setTimeout(function(){
-				console.info(222);
-				dispatch(setDisabled(false));
-			},2000);
-
-
+            // 页面内容渲染完成后设置可编辑
+            dispatch(setPageLoading(false));
         });
     }
 }
@@ -135,7 +130,7 @@ export function selectedTagChange (tag) {
 // 新增文章
 export function addArticle () {
     return (dispatch, getState) => {
-        dispatch(loadingChange(true));
+        dispatch(setPageLoading(true));
         jQuery.ajax({
             url: ENV.baseUrl + "/articleAction/addArticle",
             type: "POST",
@@ -149,7 +144,7 @@ export function addArticle () {
             dataType: "json",
             success: (data)=>{
                 message.success(data.msg+"！", 3);
-                dispatch(loadingChange(false));
+                dispatch(setPageLoading(false));
             }
         });
     }
@@ -157,17 +152,10 @@ export function addArticle () {
 
 
 
-// 设置置灰状态事件
-export function disabledChange (disabled) {
-	return (dispatch, getState) => {
-		dispatch(setDisabled(disabled));
-	}
-}
-
 // 设置删除按钮的等待事件
-export function loadingChange (loading) {
+export function pageLoadingChange (loading) {
 	return (dispatch, getState) => {
-		dispatch(setLoading(loading));
+		dispatch(setPageLoading(loading));
 	}
 }
 
