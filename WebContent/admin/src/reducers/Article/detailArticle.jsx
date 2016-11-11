@@ -3,6 +3,7 @@ import {cr} from '../../utils/index';
 import {
     SET_SORT_LIST,
     SET_TAG_LIST,
+    SET_COMMENT_LIST,
 	SET_DEFAULT_SELECTED_SORT_ID,
     SET_SELECTED_SORT_ID,
     SET_SELECTED_SORT_NAME,
@@ -33,6 +34,21 @@ export default combineReducers({
                 tagArray.push( {'id' : item.Sort_ID, 'name' : item.Sort_Name} );
             }
             return tagArray;
+        }
+    }),
+    // 设置当前文章的评论
+    commentList: cr([], {
+        [SET_COMMENT_LIST](state, {data}){
+            let commentArray = [];
+            for(let item of data){
+                commentArray.push( {
+                    'id' : item.id,
+                    'userName' : item.userName,
+                    'time' : item.time,
+                    'content' : item.content
+                } );
+            }
+            return commentArray;
         }
     }),
 	// select组件特殊，要多留一个default值赋给defaultValue属性

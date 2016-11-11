@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import {
     getSortList,
 	getTagList,
+    getCommentList,
     selectedSortIdChange,
     selectedSortNameChange,
     idChange,
@@ -19,7 +20,7 @@ import {
     pageLoadingChange
 } from '../../actions/article/detailArticle';
 
-import { Modal, Spin, Input, Popconfirm, Button, message } from 'antd';
+import { Modal, Spin, Tabs, Icon, Timeline, Input, Popconfirm, Button, message } from 'antd';
 
 import SelectComponent     from '../../components/select/js/SelectComponent';
 import UeditorComponent    from '../../components/ueditor/js/UeditorComponent';
@@ -116,27 +117,56 @@ export class DetailArticlePage extends React.Component {
         this.props.dispatch(addArticle());
     }
 
+    renderCommentList () {
+        if( this.props.commentList.length !== 0 ) {
+            const items = this.props.commentList.map((item, index) => {
+                return (
+                    <Timeline.Item>
+                        <p>{item.userName} - {item.time}</p>
+                        <p>{item.content}</p>
+                    </Timeline.Item>
+                );
+            });
+
+            return (
+                <Timeline>
+                    {items}
+                </Timeline>
+            );
+        }
+    }
+
     render() {
         return (
             <div id="page" className="page add-article-page">
                 <Spin size="large" spinning={this.props.pageLoading}>
-                    { this.renderSortSelect() }
-                    <Input defaultValue={this.props.title}
-                           value={this.props.title}
-                           onChange={this.titleChangeHandler.bind(this)}
-                           style={{ width: 470 }}
-                           size="large"
-                           placeholder="文章名称"
-                    />
-                    { this.renderUeditor() }
-                    { this.renderTag() }
-                    <Button
-                        onClick={this.submitClickHandler.bind(this)}
-                        type="primary"
-                        icon="cloud-upload-o"
-                        size="large">
-                        提交修改
-                    </Button>
+                    <Tabs defaultActiveKey="1">
+                        <Tabs.TabPane tab={<span><Icon type="file-text" />文章详情</span>} key="1">
+                            { this.renderSortSelect() }
+                            <Input defaultValue={this.props.title}
+                                   value={this.props.title}
+                                   onChange={this.titleChangeHandler.bind(this)}
+                                   style={{ width: 470 }}
+                                   size="large"
+                                   placeholder="文章名称"
+                            />
+                            { this.renderUeditor() }
+                            { this.renderTag() }
+                            <Button
+                                onClick={this.submitClickHandler.bind(this)}
+                                type="primary"
+                                icon="cloud-upload-o"
+                                size="large">
+                                保存修改
+                            </Button>
+                        </Tabs.TabPane>
+                        <Tabs.TabPane tab={<span><Icon type="bars" />评论时间轴</span>} key="2">
+                            { this.renderCommentList() }
+                        </Tabs.TabPane>
+                    </Tabs>
+
+
+
                 </Spin>
             </div>
         );

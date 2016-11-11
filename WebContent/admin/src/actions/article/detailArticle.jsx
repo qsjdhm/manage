@@ -8,6 +8,7 @@ import jQuery              from 'jquery';
 // 页面所使用的事件
 export const SET_SORT_LIST = 'SET_SORT_LIST';
 export const SET_TAG_LIST = 'SET_TAG_LIST';
+export const SET_COMMENT_LIST = 'SET_COMMENT_LIST';
 export const SET_DEFAULT_SELECTED_SORT_ID = 'SET_DEFAULT_SELECTED_SORT_ID';
 export const SET_SELECTED_SORT_ID = 'SET_SELECTED_SORT_ID';
 export const SET_SELECTED_SORT_NAME = 'SET_SELECTED_SORT_NAME';
@@ -19,6 +20,7 @@ export const SET_PAGE_LOADING = 'SET_PAGE_LOADING';
 
 const setSortList = cac(SET_SORT_LIST, 'data');
 const setTagList = cac(SET_TAG_LIST, 'data');
+const setCommentList = cac(SET_COMMENT_LIST, 'data');
 const setDefaultSelectedSortId = cac(SET_DEFAULT_SELECTED_SORT_ID, 'data');
 const setSelectedSortId = cac(SET_SELECTED_SORT_ID, 'data');
 const setSelectedSortName = cac(SET_SELECTED_SORT_NAME, 'data');
@@ -83,6 +85,22 @@ export function getTagList () {
     }
 }
 
+// 根据文章ID获取文章评论信息
+export function getCommentList () {
+    return (dispatch, getState) => {
+        const url = ENV.baseUrl + "/articleAction/getCommentById";
+        const method = "POST";
+        const body = {
+            "id" : getState().detailArticle.id
+        };
+        const errInfo = "请求文章评论连接出错！";
+        fetchComponent.send(this, url, method, body, errInfo, function(data){
+            // 设置页面元素内容
+            dispatch(setCommentList(data.commentData));
+        });
+    }
+}
+
 // 分类ID切换事件
 export function selectedSortIdChange (sortId) {
 	return (dispatch, getState) => {
@@ -103,6 +121,7 @@ export function idChange (id) {
     return (dispatch, getState) => {
         dispatch(setId(id));
         dispatch(getArticle());
+        dispatch(getCommentList());
     }
 }
 
