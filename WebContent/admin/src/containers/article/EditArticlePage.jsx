@@ -156,7 +156,7 @@ export class EditArticlePage extends React.Component {
 						{ this.renderSortSelect() }
 					</Col>
 					<Col className="gutter-row" span={6}>
-						<Input style={{width: '218px'}} size="large" placeholder="模糊搜索" />
+						<Input style={{width: '218px'}} size="large" placeholder="请输入名称、标签、内容" />
 					</Col>
 					<Col className="gutter-row" span={8}>
 						日期：
