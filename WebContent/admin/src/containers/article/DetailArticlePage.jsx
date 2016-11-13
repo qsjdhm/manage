@@ -16,8 +16,10 @@ import {
     titleChange,
     contentChange,
     selectedTagChange,
-    addArticle,
-    pageLoadingChange
+	updateArticle,
+	delComment,
+    pageLoadingChange,
+	commentCountChange
 } from '../../actions/article/detailArticle';
 
 import { Modal, Spin, Tabs, Icon, Timeline, Input, Popconfirm, Button, message } from 'antd';
@@ -47,6 +49,7 @@ export class DetailArticlePage extends React.Component {
     // 页面销毁时，重置当前状态
 	componentWillUnmount () {
         this.props.dispatch( pageLoadingChange(true) );
+		this.props.dispatch( commentCountChange([]) );
 	}
 
 
@@ -97,24 +100,24 @@ export class DetailArticlePage extends React.Component {
 
     // 渲染文章标签下拉框
     renderTag () {
-        if( this.props.tagList.length !== 0 && this.props.selectedTag.length !== 0 ) {
+        if( this.props.tagList.length !== 0 && this.props.defaultSelectedTag !== '' ) {
             return <TagComponent
 				width={820}
 				data={this.props.tagList}
-				defaultValue={this.props.selectedTag}
+				defaultValue={this.props.defaultSelectedTag}
 				selected={this.tagChangeHandler.bind(this)}
             />
         }
     }
 
     tagChangeHandler (tag) {
-        this.props.dispatch(selectedTagChange(tag));
+        this.props.dispatch(selectedTagChange(tag.join(",")));
     }
 
     submitClickHandler () {
         const content = UE.getEditor("content").getContent();
         this.props.dispatch(contentChange(content));
-        this.props.dispatch(addArticle());
+        this.props.dispatch(updateArticle());
     }
 
     renderCommentList () {
@@ -122,23 +125,41 @@ export class DetailArticlePage extends React.Component {
             const items = this.props.commentList.map((item, index) => {
                 return (
                     <Timeline.Item>
-                        <p>{item.userName} - {item.time}</p>
+                        <p>
+							{item.userName} - {item.time}
+							<a  className='margin-left-10'
+								href='javascript:void(0)'
+								onClick={this.delCommentClick.bind(this, index, item)}>
+								删除
+							</a>
+						</p>
                         <p>{item.content}</p>
-                    </Timeline.Item>
+					</Timeline.Item>
                 );
             });
 
             return (
-                <Timeline>
+                <Timeline className="margin-left-20" pending={<a >期待更多评论</a>}>
                     {items}
                 </Timeline>
             );
-        }
+        } else {
+			return (
+				<span className="margin-left-20" >
+					<Icon type="smile" />
+					<span className="margin-left-10">当前文章暂无用户评论</span>
+				</span>
+			);
+		}
     }
+
+	delCommentClick (index, item) {
+		this.props.dispatch( delComment(item.id) );
+	}
 
     render() {
         return (
-            <div id="page" className="page add-article-page">
+            <div id="page" className="page detail-article-page">
                 <Spin size="large" spinning={this.props.pageLoading}>
                     <Tabs defaultActiveKey="1">
                         <Tabs.TabPane tab={<span><Icon type="file-text" />文章详情</span>} key="1">
@@ -160,13 +181,15 @@ export class DetailArticlePage extends React.Component {
                                 保存修改
                             </Button>
                         </Tabs.TabPane>
-                        <Tabs.TabPane tab={<span><Icon type="bars" />评论时间轴</span>} key="2">
+                        <Tabs.TabPane tab={
+							<span>
+								<Icon type="bars" />
+								评论时间轴（{this.props.commentList.length}条）
+							</span>
+						} key="2">
                             { this.renderCommentList() }
                         </Tabs.TabPane>
                     </Tabs>
-
-
-
                 </Spin>
             </div>
         );

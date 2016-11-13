@@ -49,9 +49,9 @@ export class MainPage extends React.Component {
                         </div>
                         <div id="container" className="ant-layout-container">
                             <div className="ant-layout-content">
-                                <BreadcrumbComponent
-                                    data={this.props.routes}
-                                />
+								<BreadcrumbComponent
+									data={this.props.routes}
+								/>
                             </div>
 
                             {/* 渲染子页面 */}

@@ -15,6 +15,7 @@ export const SET_SELECTED_SORT_NAME = 'SET_SELECTED_SORT_NAME';
 export const SET_ID = 'SET_ID';
 export const SET_TITLE = 'SET_TITLE';
 export const SET_CONTENT = 'SET_CONTENT';
+export const SET_DEFAULT_SELECTED_TAG = 'SET_DEFAULT_SELECTED_TAG';
 export const SET_SELECTED_TAG = 'SET_SELECTED_TAG';
 export const SET_PAGE_LOADING = 'SET_PAGE_LOADING';
 
@@ -28,6 +29,7 @@ const setId = cac(SET_ID, 'data');
 const setTitle = cac(SET_TITLE, 'data');
 const setContent = cac(SET_CONTENT, 'data');
 const setSelectedTag = cac(SET_SELECTED_TAG, 'data');
+const setDefaultSelectedTag = cac(SET_DEFAULT_SELECTED_TAG, 'data');
 const setPageLoading = cac(SET_PAGE_LOADING, 'data');
 
 
@@ -47,7 +49,8 @@ export function getArticle () {
             dispatch(setSelectedSortName(data.sortName));
             dispatch(setTitle(data.title));
             dispatch(setContent(data.content));
-            dispatch(setSelectedTag(data.tag));
+			dispatch(setDefaultSelectedTag(data.tag.split(",")));
+            dispatch(setSelectedTag(data.tag.split(",")));
 
             // 页面内容渲染完成后设置可编辑
             dispatch(setPageLoading(false));
@@ -146,30 +149,44 @@ export function selectedTagChange (tag) {
     }
 }
 
-// 新增文章
-export function addArticle () {
-    return (dispatch, getState) => {
-        dispatch(setPageLoading(true));
-        jQuery.ajax({
-            url: ENV.baseUrl + "/articleAction/addArticle",
-            type: "POST",
-            data: {
-                "sortId"   : getState().addArticle.selectedSortId,
-                "sortName" : encodeURI(encodeURI(getState().addArticle.selectedSortName)),
-                "title"    : encodeURI(encodeURI(getState().addArticle.title)),
-                "content"  : getState().addArticle.content,
-                "tags"     : encodeURI(encodeURI(getState().addArticle.selectedTag.join(",")))
-            },
-            dataType: "json",
-            success: (data)=>{
-                message.success(data.msg+"！", 3);
-                dispatch(setPageLoading(false));
-            }
-        });
-    }
+// 更新文章
+export function updateArticle () {
+	return (dispatch, getState) => {
+		jQuery.ajax({
+			url: ENV.baseUrl + "/articleAction/updateArticle",
+			type: "POST",
+			data: {
+				"id"       : getState().detailArticle.id,
+				"sortId"   : getState().detailArticle.selectedSortId,
+				"sortName" : encodeURI(encodeURI(getState().detailArticle.selectedSortName)),
+				"title"    : encodeURI(encodeURI(getState().detailArticle.title)),
+				"content"  : getState().detailArticle.content,
+				"tags"     : encodeURI(encodeURI(getState().detailArticle.selectedTag.join(",")))
+			},
+			dataType: "json",
+			success: (data)=>{
+				message.success(data.msg+"！", 3);
+				dispatch(setPageLoading(false));
+			}
+		});
+	}
 }
 
-
+// 删除评论
+export function delComment (selectStr) {
+	return (dispatch, getState) => {
+		const url = ENV.baseUrl + "/commentAction/delComment";
+		const method = "POST";
+		const body = {
+			"selectId" : selectStr
+		};
+		const errInfo = "删除评论列表连接出错！";
+		fetchComponent.send(this, url, method, body, errInfo, function(data){
+			message.success(data.msg+"！", 3);
+			dispatch(getCommentList());
+		});
+	}
+}
 
 // 设置删除按钮的等待事件
 export function pageLoadingChange (loading) {
@@ -178,6 +195,10 @@ export function pageLoadingChange (loading) {
 	}
 }
 
-
-
+// 设置评论个数的事件
+export function commentCountChange (commentList) {
+	return (dispatch, getState) => {
+		dispatch(setCommentList(commentList));
+	}
+}
 

@@ -10,6 +10,7 @@ import {
     SET_ID,
     SET_TITLE,
     SET_CONTENT,
+	SET_DEFAULT_SELECTED_TAG,
     SET_SELECTED_TAG,
     SET_PAGE_LOADING
 } from '../../actions/article/detailArticle';
@@ -40,14 +41,16 @@ export default combineReducers({
     commentList: cr([], {
         [SET_COMMENT_LIST](state, {data}){
             let commentArray = [];
-            for(let item of data){
-                commentArray.push( {
-                    'id' : item.id,
-                    'userName' : item.userName,
-                    'time' : item.time,
-                    'content' : item.content
-                } );
-            }
+			if (data.length !== 0) {
+				for(let item of data){
+					commentArray.push( {
+						'id' : item.id,
+						'userName' : item.userName,
+						'time' : item.time,
+						'content' : item.content
+					} );
+				}
+			}
             return commentArray;
         }
     }),
@@ -77,11 +80,12 @@ export default combineReducers({
     content: cr('', {
         [SET_CONTENT](state, {data}){return data}
     }),
+	defaultSelectedTag: cr('', {
+		[SET_DEFAULT_SELECTED_TAG](state, {data}){return data}
+	}),
     // 设置文章选中的标签
-    selectedTag: cr([], {
-        [SET_SELECTED_TAG](state, {data}){
-			return data.split(",");
-		}
+    selectedTag: cr('', {
+        [SET_SELECTED_TAG](state, {data}){return data}
     }),
 
     // 页面获取数据前，是模糊等待状态

@@ -277,6 +277,7 @@ public class AdminArticleController {
 
 			articleJson.put("Article_ID", article.getArticle_ID());
 			articleJson.put("Article_Title", article.getArticle_Title());
+			articleJson.put("Article_Tag", article.getArticle_Tag());
 			articleJson.put("Article_Content", content);
 			articleJson.put("Sort_Name", article.getSort_Name());
 			articleJson.put("Recommend_Num", article.getRecommend_Num());

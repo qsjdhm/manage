@@ -182,6 +182,7 @@ export class EditNotePage extends React.Component {
     // 渲染弹出层的标签
     renderModelTag () {
         if(this.props.tagList.length !== 0 && this.props.modelDefaultTag !== '') {
+			console.info(this.props.modelDefaultTag);
             return  <TagComponent
                 width={806}
                 data={this.props.tagList}
