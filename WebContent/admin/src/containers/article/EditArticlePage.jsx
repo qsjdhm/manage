@@ -116,8 +116,32 @@ export class EditArticlePage extends React.Component {
 						return tags;
 					}
 				},
-				{ title: '推荐量', width: recomWidth, dataIndex: 'Recommend_Num', key: 'Recommend_Num' },
-				{ title: '点击量', width: readWidth, dataIndex: 'Read_Num', key: 'Read_Num' },
+                {
+                    title: '推荐量',
+                    width: recomWidth,
+                    dataIndex: 'Recommend_Num',
+                    key: 'Recommend_Num',
+                    render(index, item) {
+                        if (item.Recommend_Num > 1000) {
+                            return <span style={{color:'red'}}>{item.Recommend_Num}</span>;
+                        } else {
+                            return <span>{item.Recommend_Num}</span>;
+                        }
+                    }
+                },
+                {
+                    title: '点击量',
+                    width: readWidth,
+                    dataIndex: 'Read_Num',
+                    key: 'Read_Num',
+                    render(index, item) {
+                        if (item.Read_Num > 1000) {
+                            return <span style={{color:'red'}}>{item.Read_Num}</span>
+                        } else {
+                            return <span>{item.Read_Num}</span>;
+                        }
+                    }
+                },
 				{ title: '时间', width: dateWidth, dataIndex: 'Article_Date', key: 'Article_Date' },
 				{
 					title: '操作',
