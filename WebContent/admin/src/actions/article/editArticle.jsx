@@ -3,20 +3,52 @@
 import fetchComponent      from '../../components/fetch/js/fetchComponent';
 import { cac }             from '../../utils/index';
 import { message }         from 'antd';
+import jQuery              from 'jquery';
 
 // 页面所使用的事件
 export const SET_SORT_LIST = 'SET_SORT_LIST';
+export const SET_TAG_LIST = 'SET_TAG_LIST';
 export const SET_SELECTED_SORT = 'SET_SELECTED_SORT';
 export const SET_ARTICLE_COUNT = 'SET_ARTICLE_COUNT';
 export const SET_SELECTED_PAGE = 'SET_SELECTED_PAGE';
 export const SET_ARTICLE_LIST = 'SET_ARTICLE_LIST';
 
+// 给弹出层中的组件设置默认数据的事件
+export const SET_MODEL_VISIBLE = 'SET_MODEL_VISIBLE';
+export const SET_MODEL_DEFAULT_SORT_ID = 'SET_MODEL_DEFAULT_SORT_ID';
+export const SET_MODEL_DEFAULT_TITLE = 'SET_MODEL_DEFAULT_TITLE';
+export const SET_MODEL_DEFAULT_CONTENT = 'SET_MODEL_DEFAULT_CONTENT';
+export const SET_MODEL_DEFAULT_TAG = 'SET_MODEL_DEFAULT_TAG';
+
+// 弹出层中的组件切换数据保存到后台的事件
+export const SET_MODEL_SAVE_ID = 'SET_MODEL_SAVE_ID';
+export const SET_MODEL_SAVE_SORT_ID = 'SET_MODEL_SAVE_SORT_ID';
+export const SET_MODEL_SAVE_SORT_NAME = 'SET_MODEL_SAVE_SORT_NAME';
+export const SET_MODEL_SAVE_TITLE = 'SET_MODEL_SAVE_TITLE';
+export const SET_MODEL_SAVE_CONTENT = 'SET_MODEL_SAVE_CONTENT';
+export const SET_MODEL_SAVE_TAG = 'SET_MODEL_SAVE_TAG';
+
 
 const setSortList = cac(SET_SORT_LIST, 'data');
+const setTagList = cac(SET_TAG_LIST, 'data');
 const setSelectedSort = cac(SET_SELECTED_SORT, 'data');
 const setArticleCount = cac(SET_ARTICLE_COUNT, 'data');
 const setSelectedPage = cac(SET_SELECTED_PAGE, 'data');
 const setArticleList = cac(SET_ARTICLE_LIST, 'data');
+
+const setModelVisible = cac(SET_MODEL_VISIBLE, 'data');
+const setModelDefaultSortId = cac(SET_MODEL_DEFAULT_SORT_ID, 'data');
+const setModelDefaultTitle = cac(SET_MODEL_DEFAULT_TITLE, 'data');
+const setModelDefaultContent = cac(SET_MODEL_DEFAULT_CONTENT, 'data');
+const setModelDefaultTag = cac(SET_MODEL_DEFAULT_TAG, 'data');
+
+const setModelSaveId = cac(SET_MODEL_SAVE_ID, 'data');
+const setModelSaveSortId = cac(SET_MODEL_SAVE_SORT_ID, 'data');
+const setModelSaveSortName = cac(SET_MODEL_SAVE_SORT_NAME, 'data');
+const setModelSaveTitle = cac(SET_MODEL_SAVE_TITLE, 'data');
+const setModelSaveContent = cac(SET_MODEL_SAVE_CONTENT, 'data');
+const setModelSaveTag = cac(SET_MODEL_SAVE_TAG, 'data');
+
 
 
 // 获取文章分类列表
@@ -43,6 +75,21 @@ export function selectedSortChange (sortId) {
 	}
 }
 
+// 获取标签列表
+export function getTagList () {
+    return (dispatch, getState) => {
+        const url = ENV.baseUrl + "/sortAction/byTypeGetSort";
+        const method = "POST";
+        const body = {
+            "type" : "tag"
+        };
+        const errInfo = "请求文章标签连接出错！";
+        fetchComponent.send(this, url, method, body, errInfo, function(data){
+            dispatch(setTagList(data.data));
+        });
+    }
+}
+
 // 获取文章总数
 export function getArticleCount () {
 	return (dispatch, getState) => {
@@ -54,7 +101,7 @@ export function getArticleCount () {
 		const errInfo = "请求文章总个数连接出错！";
 		fetchComponent.send(this, url, method, body, errInfo, function(data){
 			dispatch(setArticleCount(data.data));
-			dispatch(selectedPageChange(1));
+            dispatch(selectedPageChange(1));
 		});
 	}
 }
@@ -82,4 +129,114 @@ export function getArticleList () {
 			dispatch(setArticleList(data.data));
 		});
 	}
+}
+
+// 获取单个文章
+export function getArticle (articleId) {
+    return (dispatch, getState) => {
+        const url = ENV.baseUrl + "/articleAction/getArticle";
+        const method = "POST";
+        const body = {
+            "selectId" : articleId
+        };
+        const errInfo = "请求文章信息连接出错！";
+        fetchComponent.send(this, url, method, body, errInfo, function(data){
+            dispatch(setModelVisible(true));
+            // 给弹出层的组件设置初始化数据
+            dispatch(setModelDefaultSortId(data.sortId));
+            dispatch(setModelDefaultTitle(data.title));
+            dispatch(setModelDefaultContent(data.content));
+            dispatch(setModelDefaultTag(data.tag.split(",")));
+
+            // 设置弹出层的组件的保存数据
+            dispatch(setModelSaveId(data.id));
+            dispatch(setModelSaveSortId(data.sortId));
+            dispatch(setModelSaveSortName(data.sortName));
+            dispatch(setModelSaveTitle(data.title));
+            dispatch(setModelSaveContent(data.content));
+            dispatch(setModelSaveTag(data.tag.split(",")));
+        });
+    }
+}
+
+// 设置弹出层是否显示事件
+export function modelVisibleChange (visible) {
+    return (dispatch, getState) => {
+        dispatch(setModelVisible(visible));
+    }
+}
+
+// 设置弹出层中分类ID改变事件
+export function modelSaveSortIdChange (sortId) {
+    return (dispatch, getState) => {
+        dispatch(setModelSaveSortId(sortId));
+    }
+}
+
+// 设置弹出层中分类NAME改变事件
+export function modelSaveSortNameChange (sortName) {
+    return (dispatch, getState) => {
+        dispatch(setModelSaveSortName(sortName));
+    }
+}
+
+// 设置弹出层中文章名称改变事件
+export function modelSaveTitleChange (title) {
+    return (dispatch, getState) => {
+        dispatch(setModelSaveTitle(title));
+    }
+}
+
+// 设置弹出层中文章内容改变事件
+export function modelSaveContentChange (content) {
+    return (dispatch, getState) => {
+        dispatch(setModelSaveContent(content));
+    }
+}
+
+// 设置弹出层中文章标签改变事件
+export function modelSaveTagChange (tag) {
+    return (dispatch, getState) => {
+        dispatch(setModelSaveTag(tag));
+    }
+}
+
+// 更新文章
+export function updateArticle () {
+    return (dispatch, getState) => {
+        jQuery.ajax({
+            url: ENV.baseUrl + "/articleAction/updateArticle",
+            type: "POST",
+            data: {
+                "id"       : getState().editArticle.modelSaveId,
+                "sortId"   : getState().editArticle.modelSaveSortId,
+                "sortName" : encodeURI(encodeURI(getState().editArticle.modelSaveSortName)),
+                "title"    : encodeURI(encodeURI(getState().editArticle.modelSaveTitle)),
+                "content"  : getState().editArticle.modelSaveContent,
+                "tags"     : encodeURI(encodeURI(getState().editArticle.modelSaveTag))
+            },
+            dataType: "json",
+            success: (data)=>{
+                message.success(data.msg+"！", 3);
+                dispatch(getArticleList());
+                dispatch(setModelVisible(false));
+            }
+        });
+    }
+}
+
+// 删除文章
+export function delArticle (selectStr) {
+    return (dispatch, getState) => {
+        const url = ENV.baseUrl + "/articleAction/delArticle";
+        const method = "POST";
+        const body = {
+            "selectId" : selectStr
+        };
+        const errInfo = "删除文章连接出错！";
+        fetchComponent.send(this, url, method, body, errInfo, function(data){
+            message.success(data.msg+"！", 3);
+            dispatch(getArticleCount());
+        });
+    }
 }

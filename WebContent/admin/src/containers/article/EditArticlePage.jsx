@@ -8,12 +8,22 @@ import { connect } from 'react-redux';
 
 import {
     getSortList,
+    getTagList,
     selectedSortChange,
-    selectedPageChange
+    selectedPageChange,
+    getArticle,
+    modelVisibleChange,
+    modelSaveSortIdChange,
+    modelSaveSortNameChange,
+    modelSaveTitleChange,
+    modelSaveContentChange,
+    modelSaveTagChange,
+    updateArticle,
+    delArticle
 } from '../../actions/article/editArticle';
 
 
-import { Tooltip, Tag, Row, Col, Input, DatePicker, Button } from 'antd';
+import { Modal, Popconfirm, message, Tooltip, Tag, Row, Col, Input, DatePicker, Button, Dropdown, Menu, Icon } from 'antd';
 
 import SelectComponent     from '../../components/select/js/SelectComponent';
 import TableComponent      from '../../components/table/js/TableComponent';
@@ -31,6 +41,8 @@ export class EditArticlePage extends React.Component {
     componentWillMount () {
         // 获取文章的分类列表
         this.props.dispatch( getSortList() );
+        // 获取文章的标签列表
+        this.props.dispatch( getTagList() );
     }
 
 
@@ -113,7 +125,30 @@ export class EditArticlePage extends React.Component {
 					dataIndex: 'operation',
 					key: 'operation',
 					render(index, item) {
-						return <a href='javascript:void(0)' onClick={self.operationClick.bind(self, index, item)}>修改</a>
+                        const menu = (
+                            <Menu>
+                                <Menu.Item>
+                                    <a href='javascript:void(0)' onClick={self.editClick.bind(self, index, item)}>
+                                        <Icon type="edit" />
+                                        <span>修改文章</span>
+                                    </a>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <a href='javascript:void(0)' onClick={self.delClick.bind(self, index, item)}>
+                                        <Icon type="delete" />
+                                        <span>删除文章</span>
+                                    </a>
+                                </Menu.Item>
+                            </Menu>
+                        );
+						return (
+                            <Dropdown overlay={menu}>
+                                <a className="ant-dropdown-link">
+                                    <span>更多</span><Icon type="down"/>
+                                </a>
+                            </Dropdown>
+                        );
+
 					}
 				}
 			];
@@ -139,37 +174,125 @@ export class EditArticlePage extends React.Component {
 
 	detailClick (index, item) {
 		window.location.href = '#/home/editArticle/'+item.Article_ID;
-		//this.props.dispatch(getArticle(item.Article_ID));
 	}
 
-    operationClick (index, item) {
-        //this.props.dispatch(getArticle(item.Article_ID));
-        //window.location.href = '#/home/editArticle/'+item.Article_ID;
-		window.location.href = '#/home/editArticle/association/'+item.Article_ID;
+    editClick (index, item) {
+        this.props.dispatch(getArticle(item.Article_ID));
+    }
+
+    delClick (index, item) {
+        this.props.dispatch(delArticle([item.Article_ID]));
+    }
+
+
+    // 渲染弹出层的分类
+    renderModelSortList () {
+        if(this.props.sortList.length !== 0 && this.props.modelDefaultSortId !== '') {
+            return <SelectComponent
+                defaultValue={this.props.modelDefaultSortId}
+                data={this.props.sortList}
+                selected={this.modelSortChangeHandler.bind(this)}/>
+        }
+    }
+
+    modelSortChangeHandler (sortId) {
+        let nowSort = {
+            sortId   : sortId,
+            sortName : ""
+        };
+        const sorts = this.props.sortList;
+        for(let sort of sorts){
+            if(sort.id === sortId) {
+                nowSort.sortName = sort.name;
+                break;
+            }
+        }
+
+        this.props.dispatch(modelSaveSortIdChange(nowSort.sortId));
+        this.props.dispatch(modelSaveSortNameChange(nowSort.sortName));
+    }
+
+    modelTitleChangeHandler (e) {
+        this.props.dispatch(modelSaveTitleChange(e.target.value));
+    }
+
+    // 渲染弹出层的富文本
+    renderModelUeditor () {
+        if(this.props.modelSaveContent !== '') {
+            return <UeditorComponent
+                value={this.props.modelSaveContent}
+                id='mContent'
+                width='805'
+                height='280'
+            />
+        }
+    }
+
+    // 渲染弹出层的标签
+    renderModelTag () {
+        if(this.props.tagList.length !== 0 && this.props.modelDefaultTag !== '') {
+            return  <TagComponent
+                width={806}
+                data={this.props.tagList}
+                defaultValue={this.props.modelDefaultTag}
+                selected={this.modelTagChangeHandler.bind(this)}
+            />
+        }
+    }
+
+    modelTagChangeHandler (tag) {
+        this.props.dispatch(modelSaveTagChange(tag.join(",")));
+    }
+
+    handleOk () {
+        // 富文本特殊不能实时变化数据，所以就在这里设置一次
+        const content = UE.getEditor("mContent").getContent();
+        this.props.dispatch(modelSaveContentChange(content));
+        this.props.dispatch(updateArticle());
+    }
+
+    handleCancel () {
+        this.props.dispatch(modelVisibleChange(false));
     }
 
     render() {
         return (
             <div id="page" className="page edit-article-page">
-				<Row type="flex" align="middle" gutter={16}>
-					<Col className="gutter-row" span={6}>
-						{ this.renderSortSelect() }
-					</Col>
-					<Col className="gutter-row" span={6}>
-						<Input style={{width: '218px'}} size="large" placeholder="请输入名称、标签、内容" />
-					</Col>
-					<Col className="gutter-row" span={8}>
-						日期：
-						<DatePicker.RangePicker size="large" style={{ width: 250 }}  />
-					</Col>
-					<Col className="gutter-row" span={4}>
-						<Button type="primary" size="large" icon="search">搜索</Button>
+				<Row>
+					<Col span={24}>
+                        {/*如果不想栅格等分的话就写一个col，然后用div包裹每个dom*/}
+                        <div className="gutter-box">
+                            { this.renderSortSelect() }
+                        </div>
+                        <div className="gutter-box">
+                            <Input style={{width: '218px'}} size="large" placeholder="请输入名称、标签、内容" />
+                        </div>
+                        <div className="gutter-box">
+                            日期：
+                            <DatePicker.RangePicker size="large" style={{ width: 250 }}  />
+                        </div>
+                        <div className="gutter-box">
+                            <Button type="primary" size="large" icon="search">搜索</Button>
+                        </div>
 					</Col>
 				</Row>
                 { this.renderTableList() }
                 { this.renderPaginationList() }
                 {/* 渲染子页面 */}
                 {this.props.children}
+
+                <Modal title="修改文章详细信息"
+                       width="840"
+                       style={{ top: 20 }}
+                       visible={this.props.modelVisible}
+                       onOk={this.handleOk.bind(this)}
+                       onCancel={this.handleCancel.bind(this)}>
+
+                    { this.renderModelSortList() }
+                    <Input value={this.props.modelSaveTitle} onChange={this.modelTitleChangeHandler.bind(this)}  style={{ width: 430 }} size="large" placeholder=""/>
+                    { this.renderModelUeditor() }
+                    { this.renderModelTag() }
+                </Modal>
             </div>
         );
     }
