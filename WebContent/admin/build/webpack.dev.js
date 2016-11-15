@@ -18,7 +18,7 @@ var devConfig = Object.assign(webpackBase, {
     },
     output: {
         path: path.resolve(__dirname, '../dist'),
-        publicPath: 'http://127.0.0.1:3001/dist/',//热加载地址
+        publicPath: 'http://127.0.0.1:3001/dist/',//html中资源加载地址
         hash: true,
         filename: 'index.js'
     }
