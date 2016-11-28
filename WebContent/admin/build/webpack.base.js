@@ -40,6 +40,8 @@ module.exports = {
         new ExtractTextPlugin("css/[name].css", {allChunks: true}),
         // 使用压缩的react包
         new webpack.DefinePlugin({
+			// 这里可以定义一些全局变量
+			"VERSION": JSON.stringify("2.1.2"),
             "process.env": {
                 NODE_ENV: JSON.stringify("production")
             }
