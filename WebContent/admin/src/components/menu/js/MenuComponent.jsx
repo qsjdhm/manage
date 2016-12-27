@@ -51,6 +51,7 @@ export default class MenuComponent extends React.Component {
                         openKeys={[this.props.openSubMenu]}
                         selectedKeys={[this.props.selectedMenu]}>
                         <Menu.Item key="系统首页"><Icon type="desktop" /><Link style={{display: "inline-block",width: "100%"}} to="/home">系统首页</Link></Menu.Item>
+
 						{this.renderMenus()}
                     </Menu>
                 </aside>

@@ -25,10 +25,10 @@ export default class ToolBarComponent extends React.Component {
         const menu = (
             <Menu>
                 <Menu.Item>
-                    <a href="https://github.com/qsjdhm">
-                        <Icon type="user" />
-                        <span>用户中心</span>
-                    </a>
+					<Link to="/home/setting">
+						<Icon type="user" />
+						<span>用户中心</span>
+					</Link>
                 </Menu.Item>
                 <Menu.Item>
                     <a href="https://github.com/qsjdhm">
