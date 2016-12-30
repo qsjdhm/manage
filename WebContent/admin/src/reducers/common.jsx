@@ -54,8 +54,8 @@ export default combineReducers ( {
 			{"path":"/home/editUser",        "name":"编辑用户"},
 			{"path":"/home/delUser",         "name":"删除用户"}
 		]},
-		{"level":1,   icon:"user",           "name":"系统管理",    "subMenu":[
-			{"path":"/home/setting",         "name":"系统设置"}
+		{"level":1,   icon:"setting",           "name":"系统管理",    "subMenu":[
+			{"path":"/home/setting",         "name":"恢复备份"}
 		]}
     ], {
         [SET_MENU_LIST]( state, { value } ){ return value; }

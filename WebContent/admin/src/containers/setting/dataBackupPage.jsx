@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Input, Button, notification, message, Row, Col } from 'antd';
 
 
-export class SettingPage extends React.Component {
+export class dataBackupPage extends React.Component {
     constructor (props) {
         super(props);
     }
@@ -23,8 +23,8 @@ export class SettingPage extends React.Component {
 
     render() {
         return (
-            <div id="page" className="page setting-page">
-				setting
+            <div id="page" className="page data-backup-page">
+				settingasd
             </div>
         );
     }
@@ -34,10 +34,10 @@ export class SettingPage extends React.Component {
 
 
 function mapStateToProps ( state ) {
-    return Object.assign({}, state.Setting);
+    return Object.assign({}, state.dataBackup);
 }
 
-export default connect( mapStateToProps )( SettingPage );
+export default connect( mapStateToProps )( dataBackupPage );
 
 
 

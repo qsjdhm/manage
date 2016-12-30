@@ -35,6 +35,8 @@ import addUser             from './user/addUser';
 import editUser            from './user/editUser';
 import delUser             from './user/delUser';
 
+import dataBackup          from './setting/dataBackup';
+
 import { combineReducers } from 'redux';
 
 const reducers = {
@@ -72,7 +74,9 @@ const reducers = {
 
     addUser,
     editUser,
-    delUser
+    delUser,
+
+    dataBackup
 };
 
 //module.exports = combineReducers(reducers);

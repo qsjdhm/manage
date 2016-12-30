@@ -85,7 +85,7 @@ const rootRoute = {
                 require('./routes/user/EditUserPage'),
                 require('./routes/user/DelUserPage'),
 
-				require('./routes/setting/SettingPage'),
+				require('./routes/setting/DataBackupPage'),
             ]
         },{
             path: '*',
