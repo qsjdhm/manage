@@ -14,21 +14,9 @@ import { Menu, Icon } from 'antd';
 export default class MenuComponent extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            openKey : [this.props.openSubMenu]
-        };
     }
 
-    componentWillReceiveProps (nextProps) {
-        if (nextProps.openSubMenu !== this.props.openSubMenu) {
-            this.setState({
-                openKey: [nextProps.openSubMenu]
-            });
-        }
-    }
-
-    renderMenus () {
+	renderMenus () {
 		const menus = this.props.menuList.map((item, index) => {
 
 			let menuItem = item.subMenu.map((subItem, subIndex) => {
@@ -49,12 +37,6 @@ export default class MenuComponent extends React.Component {
 		return menus;
 	}
 
-    onToggle(info) {
-        this.setState({
-            openKey: info.open ? info.keyPath : info.keyPath.slice(1)
-        });
-    }
-
     render() {
         return (
             <div className="ant-layout-aside">
@@ -66,11 +48,8 @@ export default class MenuComponent extends React.Component {
                     <Menu
 	                    mode="inline"
 	                    theme="dark"
-                        openKeys={this.state.openKey}
-                        selectedKeys={[this.props.selectedMenu]}
-                        onOpen={this.onToggle.bind(this)}
-                        onClose={this.onToggle.bind(this)}
-                    >
+                        openKeys={[this.props.openSubMenu]}
+                        selectedKeys={[this.props.selectedMenu]}>
                         <Menu.Item key="系统首页"><Icon type="desktop" /><Link style={{display: "inline-block",width: "100%"}} to="/home">系统首页</Link></Menu.Item>
 
 						{this.renderMenus()}
