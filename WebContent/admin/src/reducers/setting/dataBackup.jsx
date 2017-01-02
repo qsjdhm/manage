@@ -12,7 +12,7 @@ import {
 
 export default combineReducers({
     // 设置备份总数
-    articleCount: cr(0, {
+    backupCount: cr(0, {
         [SET_BACKUP_COUNT](state, {data}){return data}
     }),
     // 设置当前选中的页数
@@ -24,7 +24,7 @@ export default combineReducers({
         [SET_BACKUP_LIST](state, {data}){
             let backupArray = [];
             for( let item of data ){
-                item.key = item.Backup_ID;
+                item.key = item.backupName;
                 backupArray.push(item);
             }
             return backupArray;

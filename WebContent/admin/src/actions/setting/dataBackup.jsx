@@ -20,46 +20,22 @@ const setHasSelected = cac(SET_HAS_SELECTED, 'data');
 const setLoading = cac(SET_LOADING, 'data');
 
 
-// 获取备份总数
-export function getBackupCount (pageChange) {
-    return (dispatch, getState) => {
-        const url = ENV.baseUrl + "/backupAction/getBackupCount";
-        const method = "POST";
-        const body = {
-            "sort" : getState().delBackup.selectedSort
-        };
-        const errInfo = "请求文章总个数连接出错！";
-        fetchComponent.send(this, url, method, body, errInfo, function(data){
-            dispatch(setBackupCount(data.data));
-            if (pageChange) {
-                dispatch(selectedPageChange(1));
-            }
-        });
-    }
-}
-
-// 分页切换事件
-export function selectedPageChange (pageId) {
-    return (dispatch, getState) => {
-        dispatch(setSelectedPage(pageId));
-        dispatch(getBackupList());
-    }
-}
-
 // 获取备份列表
 export function getBackupList () {
     return (dispatch, getState) => {
-        const url = ENV.baseUrl + "/backAction/getBackupList";
+        const url = ENV.baseUrl + "/backupAction/getBackupList";
         const method = "POST";
         const body = {
-            "sort" : getState().delBackup.selectedSort,
-            "page" : getState().delBackup.selectedPage,
+            "page" : getState().dataBackup.selectedPage,
             "size" : 10
         };
         const errInfo = "请求文章列表连接出错！";
         fetchComponent.send(this, url, method, body, errInfo, function(data){
-            console.info(data);
-            dispatch(setBackupList(data.data));
+			dispatch(setBackupCount(data.count));
+			dispatch(setBackupList(data.data));
+			dispatch(loadingChange(false));
+			dispatch(setSelectedRowKeys([]));
+			dispatch(setHasSelected(false));
         });
     }
 }
@@ -78,11 +54,38 @@ export function selectedRowKeysChange (selectList) {
     }
 }
 
+// 分页切换事件
+export function selectedPageChange (pageId) {
+	return (dispatch, getState) => {
+		dispatch(setSelectedPage(pageId));
+		dispatch(getBackupList());
+	}
+}
+
 // 设置删除按钮的等待事件
 export function loadingChange (loading) {
     return (dispatch, getState) => {
         dispatch(setLoading(loading));
     }
+}
+
+// 恢复备份
+export function recoverBackup (selectStr) {
+	return (dispatch, getState) => {
+		const url = ENV.baseUrl + "/backupAction/recoverBackup";
+		const method = "POST";
+		const body = {
+			"selectId" : selectStr
+		};
+		const errInfo = "恢复备份列表连接出错！";
+		fetchComponent.send(this, url, method, body, errInfo, function(data){
+			message.success(data.msg+"！", 3);
+			dispatch(getBackupList());
+			dispatch(loadingChange(false));
+			dispatch(setSelectedRowKeys([]));
+			dispatch(setHasSelected(false));
+		});
+	}
 }
 
 // 删除备份
@@ -96,7 +99,6 @@ export function delBackupList (selectStr) {
         const errInfo = "删除备份列表连接出错！";
         fetchComponent.send(this, url, method, body, errInfo, function(data){
             message.success(data.msg+"！", 3);
-            dispatch(getBackupCount(false));
             dispatch(getBackupList());
             dispatch(loadingChange(false));
             dispatch(setSelectedRowKeys([]));
