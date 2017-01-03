@@ -73,54 +73,41 @@ public class DataBackupController {
 		response.getWriter().print(jsonObject); 
 	}
 	
-//	@RequestMapping(value = "/getArticleList")
-//	public void getArticleList(HttpServletRequest request, HttpServletResponse response) throws Exception{
-//		
-//		int sort = Integer.parseInt(request.getParameter("sort"));
-//		int page = Integer.parseInt(request.getParameter("page"));
-//		int size = Integer.parseInt(request.getParameter("size"));
-//		List <TArticle> articles = articleService.getArticle(sort, page, size);
-//		
-//		JSONArray articleJsonArray = new JSONArray();
-//		for(int i=0; i<articles.size(); i++){
-//			JSONObject articleJson = new JSONObject();
-//			TArticle article = articles.get(i);
-//			
-//			String contentHtml = article.getArticle_Content();
-//			String content = "";
-//			// 过滤图片
-//			OperateImage operateImage = new OperateImage();
-//			OperateString operateString = new OperateString();
-//			contentHtml = operateImage.filterImage(contentHtml);
-//			// 过滤html所有标签
-//			contentHtml = operateString.filterHtmlTag(contentHtml);
-//			// 截取字符串
-//			contentHtml = operateString.interceptCharacters(contentHtml, 0, 150);
-//			content = contentHtml.replaceAll("&nbsp;", "");  
-//
-//			articleJson.put("Article_ID", article.getArticle_ID());
-//			articleJson.put("Article_Title", article.getArticle_Title());
-//			articleJson.put("Article_Tag", article.getArticle_Tag());
-//			articleJson.put("Article_Content", content);
-//			articleJson.put("Sort_Name", article.getSort_Name());
-//			articleJson.put("Recommend_Num", article.getRecommend_Num());
-//			articleJson.put("Read_Num", article.getRead_Num());
-//			articleJson.put("Article_Date", article.getArticle_Date());
-//			
-//			articleJsonArray.add(articleJson);
-//		}
-//		
-//		// 3.返回添加状态信息
-//		JSONObject jsonObject = new JSONObject();
-//		jsonObject.put("success", "1");
-//		jsonObject.put("msg", "获取文章列表成功");
-//		jsonObject.put("data", articleJsonArray);
-//		
-//		response.setContentType("text/html;charset=utf-8");
-//		response.setHeader("Cache-Control", "no-cache"); 
-//		response.setCharacterEncoding("UTF-8");
-//		response.getWriter().print(jsonObject); 
-//	}
+	@RequestMapping(value = "/delBackup")
+	public void delBackup(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String selectId = request.getParameter("selectId");
+		
+		OperateFile operateFile = new OperateFile();
+		// 获取文件路径
+		String classPath = this.getClass().getResource("/").getPath();
+        String filePath = classPath.split("WEB-INF")[0] + "backupFile";
+        
+        boolean isDel = operateFile.delFiles(filePath, selectId);
+		
+		// 3.返回添加状态信息
+		JSONObject jsonObject = new JSONObject();
+		if (isDel) {
+			jsonObject.put("success", "1");
+			jsonObject.put("msg", "删除备份成功");
+		} else {
+			jsonObject.put("success", "0");
+			jsonObject.put("msg", "删除备份失败");
+		}
+		
+		
+		response.setContentType("text/html;charset=utf-8");
+        response.setHeader("Cache-Control", "no-cache"); 
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().print(jsonObject); 
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

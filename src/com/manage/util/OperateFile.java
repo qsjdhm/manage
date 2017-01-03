@@ -52,14 +52,14 @@ public class OperateFile {
 			if (file.isDirectory()) {
 				String[] filelist = file.list();
 				for (int i = 0; i < filelist.length; i++) {
-					File readfile = new File(filePath
+					File readFile = new File(filePath
 							+ System.getProperty("file.separator")
 							+ filelist[i]);
-					if (!readfile.isDirectory()) {
-						String fileName = readfile
+					if (!readFile.isDirectory()) {
+						String fileName = readFile
 								.getName()
 								.substring(
-										readfile.getName()
+										readFile.getName()
 												.lastIndexOf(
 														System.getProperty("file.separator")) + 1);
 						int fileSize = getSize(filePath
@@ -69,7 +69,7 @@ public class OperateFile {
 						backupJson.put("Backup_Name", fileName);
 						backupJson.put("Backup_Size", fileSize);
 						backupJsonArray.add(backupJson);
-					} else if (readfile.isDirectory()) {
+					} else if (readFile.isDirectory()) {
 						// getAllFiles(filePath +
 						// System.getProperty("file.separator") + filelist[i]);
 					}
@@ -138,5 +138,28 @@ public class OperateFile {
 		}
 		return 0;
 	}
+	
+	// 删除文件
+	public static Boolean delFiles(String filePath, String selectIds) throws FileNotFoundException, IOException {
+		File file = new File(filePath);
+		if (file.isDirectory()) {
+			String[] filelist = file.list();
+			for (int i = 0; i < filelist.length; i++) {
+				File readFile = new File(filePath + System.getProperty("file.separator") + filelist[i]);
+				if (!readFile.isDirectory()) {
+					System.out.println(filelist[i]);
+					//getFileCount(filePath + System.getProperty("file.separator") + filelist[i]);
+				}
+			}
+		}
+		
+		return true;
+		
+		
+	}
+	
+	
+	
+	
 
 }
