@@ -2,6 +2,8 @@ import {combineReducers} from 'redux';
 import {cr} from '../../utils/index';
 import {
     // 页面所使用的数据
+    SET_START_DATE,
+    SET_END_DATE,
     SET_BACKUP_COUNT,
     SET_SELECTED_PAGE,
     SET_BACKUP_LIST,
@@ -11,6 +13,12 @@ import {
 } from '../../actions/setting/dataBackup';
 
 export default combineReducers({
+    startDate: cr('20170127', {
+        [SET_START_DATE](state, {data}){return data}
+    }),
+    endDate: cr('20170130', {
+        [SET_END_DATE](state, {data}){return data}
+    }),
     // 设置备份总数
     backupCount: cr(0, {
         [SET_BACKUP_COUNT](state, {data}){return data}

@@ -46,25 +46,62 @@ public class DataBackupController {
 	 
 	@RequestMapping(value = "/getBackupList")
 	public void getBackupList(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		String startTime = request.getParameter("startTime");
-		String endTime = request.getParameter("endTime");
-//		int page = Integer.parseInt(request.getParameter("page"));
-//		int size = Integer.parseInt(request.getParameter("size"));
+		int startDate = request.getParameter("startDate").equals("") ? 0 : Integer.parseInt(request.getParameter("startDate"));
+		int endDate = request.getParameter("endDate").equals("") ? 99999999 : Integer.parseInt(request.getParameter("endDate"));
+		int page = Integer.parseInt(request.getParameter("page"));
+		int size = Integer.parseInt(request.getParameter("size"));
+		
+		System.out.println(startDate);
+		System.out.println(endDate);
+		System.out.println(page);
+		System.out.println(size);
+		
 		
 		OperateFile operateFile = new OperateFile();
 		
 		String classPath = this.getClass().getResource("/").getPath();
 	        
-	        String webContentPath = classPath.split("WEB-INF")[0];
-	        JSONArray backupJsonArray = operateFile.getAllFiles(webContentPath + "backupFile");
-	        int count = backupJsonArray.size();
+        String webContentPath = classPath.split("WEB-INF")[0];
+        JSONArray backupJsonArray = operateFile.getAllFiles(webContentPath + "backupFile");
+        
+        int coinDateCount = 0;  // 记录符合时间区间的文件总数，不受分页限制
+        
+        
+        
+        
+        // 先得到符合时间的数据
+        JSONArray coinDateArray = new JSONArray();
+        for (int i = 0; i < backupJsonArray.size(); i++) {
+        	JSONObject obj = backupJsonArray.getJSONObject(i);
+        	int name = Integer.parseInt(obj.getString("Backup_Name").split("\\.")[0]);
+    		// 先过滤时间区间，在过滤页数
+        	if (name >= startDate && name <= endDate) {
+        		coinDateArray.add(obj);
+        		coinDateCount++;
+    		}
+        }
+        
+        // 再得到分页的数据
+        JSONArray filterArray = new JSONArray();
+        int startNumber = (page-1) * size;  // 起始数据下标
+    	int endNumber = page * size;  // 结束数据下标
+    	
+        for (int i = 0; i < coinDateArray.size(); i++) {
+        	
+        	JSONObject obj = coinDateArray.getJSONObject(i);
+			if (i >= startNumber && i < endNumber) {
+				filterArray.add(obj);
+        	}
+        }
+        
+        
 		
 		// 3.返回添加状态信息
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("success", "1");
 		jsonObject.put("msg", "获取备份列表成功");
-		jsonObject.put("data", backupJsonArray);
-		jsonObject.put("count", count);
+		jsonObject.put("data", filterArray);
+		jsonObject.put("count", coinDateCount);
 		
 		response.setContentType("text/html;charset=utf-8");
 		response.setHeader("Cache-Control", "no-cache"); 

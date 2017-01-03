@@ -7,12 +7,13 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
 import {
+    dateChange,
 	getBackupList,
+    recoverBackup,
+    delBackupList,
 	selectedPageChange,
 	hasSelectedChange,
 	selectedRowKeysChange,
-	recoverBackup,
-	delBackupList,
 	loadingChange
 } from '../../actions/setting/dataBackup';
 
@@ -38,7 +39,7 @@ export class dataBackupPage extends React.Component {
 		if(this.props.backupCount.length !== 0) {
 			return <PaginationComponent
 				count={this.props.backupCount}
-				pageSize={10}
+				pageSize={2}
 				pageed={this.paginationClickHandler.bind(this)}/>
 		}
 	}
@@ -142,6 +143,20 @@ export class dataBackupPage extends React.Component {
         this.props.dispatch(delBackupList(selectStr));
     }
 
+    // 时间改变
+    dateChangeHandler (value, dateString) {
+
+        this.props.dispatch(dateChange(dateString[0], dateString[1]));
+
+        console.log('From: ', value[0], ', to: ', value[1]);
+        console.log('From: ', dateString[0], ', to: ', dateString[1]);
+    }
+
+    // 搜索按钮点击
+    searchClickHandler () {
+        this.props.dispatch(selectedPageChange(1));
+    }
+
 
     render() {
         return (
@@ -151,10 +166,10 @@ export class dataBackupPage extends React.Component {
                         {/*如果不想栅格等分的话就写一个col，然后用div包裹每个dom*/}
                         <div className="gutter-box">
                             日期区间：
-                            <DatePicker.RangePicker size="large" style={{ width: 250 }}  />
+                            <DatePicker.RangePicker onChange={this.dateChangeHandler.bind(this)} size="large" style={{ width: 250 }}  />
                         </div>
                         <div className="gutter-box">
-                            <Button type="primary" size="large" icon="search">搜索</Button>
+                            <Button onClick={this.searchClickHandler.bind(this)} type="primary" size="large" icon="search">搜索</Button>
                         </div>
 
                         <div className="gutter-box gutter-box-right">
