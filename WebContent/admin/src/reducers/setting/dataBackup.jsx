@@ -13,10 +13,10 @@ import {
 } from '../../actions/setting/dataBackup';
 
 export default combineReducers({
-    startDate: cr('20170127', {
+    startDate: cr('', {
         [SET_START_DATE](state, {data}){return data}
     }),
-    endDate: cr('20170130', {
+    endDate: cr('', {
         [SET_END_DATE](state, {data}){return data}
     }),
     // 设置备份总数

@@ -29,7 +29,7 @@ export class dataBackupPage extends React.Component {
         super(props);
     }
 
-    componentWillMount () {
+    componentDidMount () {
 		// 获取备份列表
 		this.props.dispatch( getBackupList() );
     }
