@@ -35,7 +35,7 @@ export function getBackupList () {
             "startDate" : getState().dataBackup.startDate,
             "endDate" : getState().dataBackup.endDate,
             "page" : getState().dataBackup.selectedPage,
-            "size" : 2
+            "size" : 10
         };
         const errInfo = "请求文章列表连接出错！";
         fetchComponent.send(this, url, method, body, errInfo, function(data){

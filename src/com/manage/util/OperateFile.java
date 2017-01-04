@@ -14,7 +14,7 @@ import net.sf.json.JSONObject;
 public class OperateFile {
 
 	// 获得某个目录下的文件总个数
-	public static int getFileCount(String filePath)
+	public int getFileCount(String filePath)
 			throws FileNotFoundException, IOException {
 		int count = 0;
 		try {
@@ -22,15 +22,11 @@ public class OperateFile {
 			if (file.isDirectory()) {
 				String[] filelist = file.list();
 				for (int i = 0; i < filelist.length; i++) {
-					File readfile = new File(filePath
-							+ System.getProperty("file.separator")
-							+ filelist[i]);
+					File readfile = new File(filePath + System.getProperty("file.separator") + filelist[i]);
 					if (!readfile.isDirectory()) {
 						count++;
 					} else if (readfile.isDirectory()) {
-						getFileCount(filePath
-								+ System.getProperty("file.separator")
-								+ filelist[i]);
+						getFileCount(filePath + System.getProperty("file.separator") + filelist[i]);
 					}
 				}
 			}
@@ -42,7 +38,7 @@ public class OperateFile {
 	}
 
 	// 获得某个目录下所有文件
-	public static JSONObject getAllFiles(String filePath, int startDate,
+	public JSONObject getAllFiles(String filePath, int startDate,
 			int endDate, int page, int size) throws FileNotFoundException,
 			IOException {
 		JSONArray backupJsonArray = new JSONArray();
@@ -52,26 +48,14 @@ public class OperateFile {
 			if (file.isDirectory()) {
 				String[] filelist = file.list();
 				for (int i = 0; i < filelist.length; i++) {
-					File readFile = new File(filePath
-							+ System.getProperty("file.separator")
-							+ filelist[i]);
+					File readFile = new File(filePath + System.getProperty("file.separator") + filelist[i]);
 					if (!readFile.isDirectory()) {
-						String fileName = readFile
-								.getName()
-								.substring(
-										readFile.getName()
-												.lastIndexOf(
-														System.getProperty("file.separator")) + 1);
-						int fileSize = getSize(filePath
-								+ System.getProperty("file.separator")
-								+ fileName);
+						String fileName = readFile.getName().substring(readFile.getName().lastIndexOf(System.getProperty("file.separator")) + 1);
+						int fileSize = getSize(filePath + System.getProperty("file.separator") + fileName);
 						JSONObject backupJson = new JSONObject();
 						backupJson.put("Backup_Name", fileName);
 						backupJson.put("Backup_Size", fileSize);
 						backupJsonArray.add(backupJson);
-					} else if (readFile.isDirectory()) {
-						// getAllFiles(filePath +
-						// System.getProperty("file.separator") + filelist[i]);
 					}
 				}
 			}
@@ -87,7 +71,7 @@ public class OperateFile {
 	}
 
 	// 获得某个目录下所有文件
-	public static JSONObject getFilesByFiltration(JSONArray backupJsonArray,
+	public JSONObject getFilesByFiltration(JSONArray backupJsonArray,
 			int startDate, int endDate, int page, int size)
 			throws FileNotFoundException, IOException {
 
@@ -97,8 +81,7 @@ public class OperateFile {
 		JSONArray coinDateArray = new JSONArray();
 		for (int i = 0; i < backupJsonArray.size(); i++) {
 			JSONObject obj = backupJsonArray.getJSONObject(i);
-			int name = Integer.parseInt(obj.getString("Backup_Name").split(
-					"\\.")[0]);
+			int name = Integer.parseInt(obj.getString("Backup_Name").split("\\.")[0]);
 			// 先过滤时间区间，在过滤页数
 			if (name >= startDate && name <= endDate) {
 				coinDateArray.add(obj);
@@ -110,9 +93,7 @@ public class OperateFile {
 		JSONArray filterArray = new JSONArray();
 		int startNumber = (page - 1) * size; // 起始数据下标
 		int endNumber = page * size; // 结束数据下标
-
 		for (int i = 0; i < coinDateArray.size(); i++) {
-
 			JSONObject obj = coinDateArray.getJSONObject(i);
 			if (i >= startNumber && i < endNumber) {
 				filterArray.add(obj);
@@ -120,15 +101,13 @@ public class OperateFile {
 		}
 
 		JSONObject jsonObject = new JSONObject();
-
 		jsonObject.put("data", filterArray);
 		jsonObject.put("count", coinDateCount);
-
 		return jsonObject;
 	}
 
 	// 获得文件的大小
-	public static int getSize(String filePath) throws FileNotFoundException,
+	public int getSize(String filePath) throws FileNotFoundException,
 			IOException {
 		File file = new File(filePath);
 		if (file.exists() && file.isFile()) {
@@ -140,26 +119,25 @@ public class OperateFile {
 	}
 	
 	// 删除文件
-	public static Boolean delFiles(String filePath, String selectIds) throws FileNotFoundException, IOException {
+	public Boolean delFiles(String filePath, String selectIds) throws FileNotFoundException, IOException {
+		String [] selectFiles = selectIds.split(";");
 		File file = new File(filePath);
 		if (file.isDirectory()) {
 			String[] filelist = file.list();
 			for (int i = 0; i < filelist.length; i++) {
 				File readFile = new File(filePath + System.getProperty("file.separator") + filelist[i]);
 				if (!readFile.isDirectory()) {
-					System.out.println(filelist[i]);
-					//getFileCount(filePath + System.getProperty("file.separator") + filelist[i]);
+					String fileName = readFile.getName().substring(readFile.getName().lastIndexOf(System.getProperty("file.separator")) + 1);
+					for (int j = 0; j < selectFiles.length; j++) {
+						if (selectFiles[j].equals(fileName)) {
+							readFile.delete();
+							continue;
+						}
+					}
 				}
 			}
 		}
 		
 		return true;
-		
-		
 	}
-	
-	
-	
-	
-
 }

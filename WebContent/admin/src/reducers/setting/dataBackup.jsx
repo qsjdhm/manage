@@ -32,7 +32,7 @@ export default combineReducers({
         [SET_BACKUP_LIST](state, {data}){
             let backupArray = [];
             for( let item of data ){
-                item.key = item.backupName;
+                item.key = item.Backup_Name;
                 backupArray.push(item);
             }
             return backupArray;

@@ -39,7 +39,7 @@ export class dataBackupPage extends React.Component {
 		if(this.props.backupCount.length !== 0) {
 			return <PaginationComponent
 				count={this.props.backupCount}
-				pageSize={2}
+				pageSize={10}
 				pageed={this.paginationClickHandler.bind(this)}/>
 		}
 	}
@@ -145,11 +145,7 @@ export class dataBackupPage extends React.Component {
 
     // 时间改变
     dateChangeHandler (value, dateString) {
-
         this.props.dispatch(dateChange(dateString[0], dateString[1]));
-
-        console.log('From: ', value[0], ', to: ', value[1]);
-        console.log('From: ', dateString[0], ', to: ', dateString[1]);
     }
 
     // 搜索按钮点击
