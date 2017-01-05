@@ -10,6 +10,9 @@ public interface ICommentService <T extends TComment> extends IService<T> {
 	// 获取评论的总个数
 	public int getCommentLength();
 	
+	// 获取未读评论的总个数
+	public int getUnreadCommentLength();
+	
 	// 根据每页个数获取评论的总页数
 	public int getCommentPageCount(int pageNum);
 

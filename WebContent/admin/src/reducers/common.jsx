@@ -10,7 +10,8 @@
 import { combineReducers } from "redux";
 import { cr } from "../utils/index";
 import {
-    SET_MENU_LIST
+    SET_MENU_LIST,
+    SET_UNREAD_TIP
 } from "../actions/common";
 
 export default combineReducers ( {
@@ -59,6 +60,9 @@ export default combineReducers ( {
 		]}
     ], {
         [SET_MENU_LIST]( state, { value } ){ return value; }
+    } ),
+    unreadTip : cr( false, {
+        [SET_UNREAD_TIP]( state, { value } ){ return value; }
     } )
 } );
 

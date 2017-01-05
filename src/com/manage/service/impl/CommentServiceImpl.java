@@ -24,7 +24,19 @@ public class CommentServiceImpl<T extends TComment> extends ServiceImpl<T> imple
 		Long count = (Long)comment.listIterator().next();
 		return count.intValue();
 	}
-
+	
+	/**
+	 *  获取未读评论的总个数
+	 *  @return 未读总个数
+	 */
+	@Override
+	public int getUnreadCommentLength() {
+		String sql = "select COUNT(*) from TComment where Comment_Read=0";
+		List comment = this.getDao().list(sql);
+		Long count = (Long)comment.listIterator().next();
+		return count.intValue();
+	}
+	
 	/**
 	 *  根据每页个数获取评论的总页数
 	 *  @param pageNum 每页个数

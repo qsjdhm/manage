@@ -84,72 +84,6 @@ public class AdminCommentController {
 	}
 	
 	
-	/****************供页面加载转向的ACTION******************/
-	
-	
-	// 负责映射到删除评论页面
-	@RequestMapping(value = "/delPage/{page}", method = {RequestMethod.GET})
-	public ModelAndView delPage(@PathVariable(value="page") Integer page) throws Exception{
-
-		// 1.获取评论总个数
-		GenerateHtml generateHtml = new GenerateHtml();
-		int count = commentService.getCommentLength();
-		// 2.获取评论列表
-		// 因为前台分页插件的索引是从0开始，所以加1
-		page = page +1;
-		List <TComment> comments = commentService.getComment(page, 6);
-		String commentHtml = generateHtml.generateAdminCommentDelHtml(comments);
-		// 3.获取笔记下的第一个子分类
-		int noteFirstSortID = sortService.getFirstSortByFSort(8);
-		// 4.获取图书下的第一个子分类
-		int bookFirstSortID = sortService.getFirstSortByFSort(3);
-		
-		
-		// 1.把返回的数据放到相对应的key中
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("count", count);  // 总数
-		modelAndView.addObject("pageId", page-1);  // 当前页
-		modelAndView.addObject("commentHtml", commentHtml);
-		modelAndView.addObject("noteFirstSortID", noteFirstSortID);
-		modelAndView.addObject("bookFirstSortID", bookFirstSortID);
-		modelAndView.setViewName("/admin/column/comment/del_comment");
-		
-		// 2.把modelAndView返回
-		return modelAndView;
-	}
-	
-	// 负责映射到修改笔记页面
-	@RequestMapping(value = "/updatePage/{page}", method = {RequestMethod.GET})
-	public ModelAndView updatePage(@PathVariable(value="page") Integer page) throws Exception{
-
-		// 1.获取评论总个数
-		GenerateHtml generateHtml = new GenerateHtml();
-		int count = commentService.getCommentLength();
-		// 2.获取评论列表
-		// 因为前台分页插件的索引是从0开始，所以加1
-		page = page +1;
-		List <TComment> comments = commentService.getComment(page, 6);
-		String commentHtml = generateHtml.generateAdminCommentUpdateHtml(comments);
-		// 3.获取笔记下的第一个子分类
-		int noteFirstSortID = sortService.getFirstSortByFSort(8);
-		// 4.获取图书下的第一个子分类
-		int bookFirstSortID = sortService.getFirstSortByFSort(3);
-		
-		
-		// 1.把返回的数据放到相对应的key中
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("count", count);  // 总数
-		modelAndView.addObject("pageId", page-1);  // 当前页
-		modelAndView.addObject("commentHtml", commentHtml);
-		modelAndView.addObject("noteFirstSortID", noteFirstSortID);
-		modelAndView.addObject("bookFirstSortID", bookFirstSortID);
-		modelAndView.setViewName("/admin/column/comment/update_comment");
-		
-		// 2.把modelAndView返回
-		return modelAndView;
-	}
-	
-	
 	/****************供AJAX请求的ACTION******************/
 	
 	@RequestMapping(value = "/getCommentCount")
@@ -160,6 +94,22 @@ public class AdminCommentController {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("success", "1");
 		jsonObject.put("msg", "获取评论个数成功");
+		jsonObject.put("data", count);
+		
+		response.setContentType("text/html;charset=utf-8");
+        response.setHeader("Cache-Control", "no-cache"); 
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().print(jsonObject); 
+	}
+	
+	@RequestMapping(value = "/getUnreadCommentLength")
+	public void getUnreadCommentLength(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		int count = commentService.getUnreadCommentLength();
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("success", "1");
+		jsonObject.put("msg", "获取未读评论个数成功");
 		jsonObject.put("data", count);
 		
 		response.setContentType("text/html;charset=utf-8");
@@ -182,6 +132,7 @@ public class AdminCommentController {
 			commentJson.put("Comment_Person_Name", comment.getComment_Person_Name());
 			commentJson.put("Comment_Content", comment.getComment_Content());
 			commentJson.put("Comment_ArticleTitle", comment.getComment_ArticleTitle());
+			commentJson.put("Comment_Read", comment.getComment_Read());
 			
 			commentJsonArray.add(commentJson);
 		}
@@ -221,6 +172,7 @@ public class AdminCommentController {
 		comment.setComment_Time(date);
 		comment.setComment_ArticleID(articleID);
 		comment.setComment_ArticleTitle(articleTitle);
+		comment.setComment_Read(0);
 		comment.setParent_CommentID(fCommentID);
 		commentService.create(comment);
 		
@@ -285,6 +237,7 @@ public class AdminCommentController {
 		TComment comment = commentService.getCommentByID(selectId);
 		String userName = comment.getComment_Person_Name();
 		String content = comment.getComment_Content();
+		int read = comment.getComment_Read();
 		
 		// 3.返回添加状态信息
 		JSONObject jsonObject = new JSONObject();
@@ -293,6 +246,7 @@ public class AdminCommentController {
 		jsonObject.put("id", selectId);
 		jsonObject.put("userName", userName);
 		jsonObject.put("content", content);
+		jsonObject.put("read", read);
 		
 		response.setContentType("text/html;charset=utf-8");
         response.setHeader("Cache-Control", "no-cache"); 
@@ -311,6 +265,7 @@ public class AdminCommentController {
 		int articleID = 0;
 		String articleTitle = "";
 		int parentId = 0;
+		int read = 0;
 		
 		// 首先取回需要修改的评论的数据
 		TComment priComment = commentService.getCommentByID(id);
@@ -319,6 +274,7 @@ public class AdminCommentController {
 		articleID = priComment.getComment_ArticleID();
 		articleTitle = priComment.getComment_ArticleTitle();
 		parentId = priComment.getParent_CommentID();
+		read = priComment.getComment_Read();
 		
 		// 1.修改评论数据
 		TComment comment = new TComment();
@@ -329,6 +285,7 @@ public class AdminCommentController {
 		comment.setComment_Time(date);
 		comment.setComment_ArticleID(articleID);
 		comment.setComment_ArticleTitle(articleTitle);
+		comment.setComment_Read(read);
 		comment.setParent_CommentID(parentId);
 		commentService.update(comment);
 		

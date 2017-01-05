@@ -24,6 +24,7 @@ public class TComment {
 	private int Comment_ArticleID = 0;
 	private String Comment_ArticleTitle = "";
 	private int Parent_CommentID = 0;
+	private int Comment_Read = 0;
 	
 	public int getComment_ID() {
 		return Comment_ID;
@@ -72,5 +73,11 @@ public class TComment {
 	}
 	public void setParent_CommentID(int parent_CommentID) {
 		Parent_CommentID = parent_CommentID;
+	}
+	public int getComment_Read() {
+		return Comment_Read;
+	}
+	public void setComment_Read(int comment_Read) {
+		Comment_Read = comment_Read;
 	}
 }
