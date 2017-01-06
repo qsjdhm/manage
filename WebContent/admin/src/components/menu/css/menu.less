@@ -5,7 +5,7 @@
 	.ant-layout-sider {
 		width: 224px;
 		height: 100%;
-		background: #404040;
+		background: #3f3f3f;
 		position: absolute;
 		padding-bottom: 24px;
 		overflow-y: auto;
@@ -44,28 +44,44 @@
 			background-color: #3bb4f2;
 		}
 
-		.ant-menu-dark .ant-menu-item, .ant-menu-dark .ant-menu-item > a {
+		.ant-menu-dark {
 			color: rgba(255, 255, 255, 0.57);
-		}
 
-		.ant-menu-dark, .ant-menu-dark .ant-menu-sub {
-			color: rgba(255, 255, 255, 0.57);
-			background: #404040;
-		}
+			.ant-menu-item {
+				color: rgba(255, 255, 255, 0.57);
 
+				> a {
+					color: rgba(255, 255, 255, 0.57);
+				}
+			}
 
-		.ant-menu-dark .ant-menu-item-selected {
-			color: #fff;
-		}
+			.ant-menu-item-active {
+				color: #fff;
 
-		.ant-menu-dark .ant-menu-item-selected a {
-			border-right: 0;
-			color: #fff;
-		}
+				> a {
+					color: #fff;
+				}
+			}
 
-		.ant-menu-sub {
-			a {
-				font-size: 14px;
+			.ant-menu-item-selected {
+				background-color: #3bb4f2;
+			}
+
+			.ant-menu-sub {
+				color: rgba(255, 255, 255, 0.57);
+
+				a {
+					font-size: 14px;
+				}
+			}
+
+			.ant-menu-item-selected {
+				color: #fff;
+
+				a {
+					border-right: 0;
+					color: #fff;
+				}
 			}
 		}
 	}
