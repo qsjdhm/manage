@@ -8,17 +8,54 @@ import '../css/toolbar.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
-import { Dropdown, Menu, Icon } from 'antd';
+import { Dropdown, Menu, Icon, Badge } from 'antd';
 import auth from '../../../utils/auth';
 
 
 export default class ToolBarComponent extends React.Component {
     constructor(props) {
         super(props);
+
+        //this.state = {
+        //    unreadNumber : this.props.unreadNumber
+        //};
     }
 
     logout() {
         auth.logout();
+    }
+
+    //componentWillReceiveProps (nextProps) {
+    //    if (nextProps.unreadNumber !== this.props.unreadNumber) {
+    //        this.setState({
+    //            unreadNumber : nextProps.unreadNumber
+    //        });
+    //
+    //        console.info("nextProps:");
+    //        console.info(nextProps);
+    //    }
+    //}
+
+    // 渲染未读消息
+    renderUnreadItem () {
+        if (this.props.unreadNumber === 0) {
+            return (
+                <Link to="/home/editComment">
+                    <Icon type="notification" />
+                    <span>未读消息({this.props.unreadNumber})</span>
+                </Link>
+            );
+
+        } else {
+            return (
+                <Link to="/home/editComment">
+                    <Badge dot>
+                        <Icon type="notification" />
+                        <span>未读消息 ({this.props.unreadNumber})</span>
+                    </Badge>
+                </Link>
+            );
+        }
     }
 
     render() {
@@ -29,6 +66,9 @@ export default class ToolBarComponent extends React.Component {
 						<Icon type="user" />
 						<span>用户中心</span>
 					</Link>
+                </Menu.Item>
+                <Menu.Item>
+                    { this.renderUnreadItem() }
                 </Menu.Item>
                 <Menu.Item>
                     <a href="https://github.com/qsjdhm">

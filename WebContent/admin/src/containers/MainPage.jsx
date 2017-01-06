@@ -48,7 +48,7 @@ export class MainPage extends React.Component {
                                 </Col>
                                 <Col span={12} offset={8}>
                                     {/*因为登录的时候已经把用户名写到本地数据库了，所以这里只需要获取就行了*/}
-                                    <ToolBarComponent manageName={localStorage["manageTokenName"]}
+                                    <ToolBarComponent unreadNumber={this.props.common.unreadNumber} manageName={localStorage["manageTokenName"]}
                                     />
                                 </Col>
                             </Row>

@@ -1,7 +1,30 @@
 
+// 此系统的基础蓝色
+@baseBlue: #3bb4f2;
+
 body {
 	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 	overflow: hidden;
+
+	/* 和antd的颜色兼容性 */
+	.ant-btn-primary {
+		background-color: @baseBlue;
+		border-color: @baseBlue;
+	}
+
+	a {
+		color: @baseBlue;
+	}
+
+	.ant-checkbox-checked .ant-checkbox-inner, .ant-checkbox-indeterminate .ant-checkbox-inner {
+		background-color: @baseBlue;
+		border-color: @baseBlue;
+	}
+
+	::selection {
+		background: @baseBlue;
+	}
+
 
 	#root_page {
 		height: 100%;
@@ -81,10 +104,6 @@ body {
 				right: 0;
 			}
 		}
-
-		/*.ant-btn-primary {
-			color: rgb(59, 180, 242);
-		}*/
 	}
 	.ant-modal-wrap input, .ant-modal-wrap textarea {
 		width: 488px!important;

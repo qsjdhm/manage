@@ -10,10 +10,12 @@ import { cac }             from "../utils/index";
 
 export const SET_MENU_LIST = "SET_MENU_LIST";
 export const SET_MANAGE_NAME = "SET_MANAGE_NAME";
+export const SET_UNREAD_NUMBER = "SET_UNREAD_NUMBER";
 
 // 如果有数据需要变化，在action中调用此方法
 export const setMenuList = cac( SET_MENU_LIST, "value" );
 export const setManageName = cac( SET_MANAGE_NAME, "value" );
+export const setUnreadNumber = cac( SET_UNREAD_NUMBER, "value" );
 
 // 系统路由改变事件
 // 如果contaniners中用户行为发生操作，相对应需要在contaniners中调用此方法
@@ -29,7 +31,7 @@ export function manageNameChange (manageName) {
     }
 }
 
-
+// 获取未读评论个数
 export function getUnreadCount () {
     return (dispatch, getState) => {
         const url = ENV.baseUrl + "/commentAction/getUnreadCommentLength";
@@ -57,7 +59,9 @@ export function getUnreadCount () {
                 btn,
                 key,
                 onClose: close,
-            })
+            });
+
+            dispatch( setUnreadNumber(data.data) );
         });
     }
 }
