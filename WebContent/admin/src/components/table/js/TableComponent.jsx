@@ -61,6 +61,7 @@ export default class TableComponent extends React.Component {
 		return (
 			<div className="table-package">
 				<Table
+                    bordered={false}
 					size="middle"
 					columns={this.props.tableColumns}
 					dataSource={this.props.tableData}

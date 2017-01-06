@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { notification, Button }         from 'antd';
+import { notification, Button, Icon }         from 'antd';
 
 
 import fetchComponent      from '../components/fetch/js/fetchComponent';
@@ -10,12 +10,10 @@ import { cac }             from "../utils/index";
 
 export const SET_MENU_LIST = "SET_MENU_LIST";
 export const SET_MANAGE_NAME = "SET_MANAGE_NAME";
-export const SET_UNREAD_TIP = "SET_UNREAD_TIP";
 
 // 如果有数据需要变化，在action中调用此方法
 export const setMenuList = cac( SET_MENU_LIST, "value" );
 export const setManageName = cac( SET_MANAGE_NAME, "value" );
-export const setUnreadTip = cac( SET_UNREAD_TIP, "value" );
 
 // 系统路由改变事件
 // 如果contaniners中用户行为发生操作，相对应需要在contaniners中调用此方法
@@ -51,8 +49,9 @@ export function getUnreadCount () {
                 </Button>
             );
 
-            notification['info']({
+            notification.open({
                 message: '系统提示',
+                icon: <Icon type="notification" style={{ color: '#3BB4F2' }} />,
                 description: '目前您有 '+data.data+' 条评论，请注意查看！',
                 duration: null,
                 btn,

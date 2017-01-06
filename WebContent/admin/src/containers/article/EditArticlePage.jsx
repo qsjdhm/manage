@@ -111,7 +111,7 @@ export class EditArticlePage extends React.Component {
 					key: 'Article_Tag',
 					render(index, item) {
 						const tags = item.Article_Tag.split(',').map((tagItem, tagIndex) => {
-							return <Tag color="#fff">{tagItem}</Tag>
+							return <Tag>{tagItem}</Tag>
 						});
 						return tags;
 					}

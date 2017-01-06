@@ -16,14 +16,14 @@ export default class MenuComponent extends React.Component {
         super(props);
 
         this.state = {
-            openKey : [this.props.openSubMenu]
+            openKeys : [this.props.openSubMenu]
         };
     }
 
     componentWillReceiveProps (nextProps) {
         if (nextProps.openSubMenu !== this.props.openSubMenu) {
             this.setState({
-                openKey: [nextProps.openSubMenu]
+                openKeys: [nextProps.openSubMenu]
             });
         }
     }
@@ -40,7 +40,7 @@ export default class MenuComponent extends React.Component {
 			});
 
 			return (
-				<Menu.SubMenu key={item.name} title={<span><Icon type={item.icon} />{item.name}</span>}>
+				<Menu.SubMenu key={item.name} title={<span><Icon type={item.icon} /><span>{item.name}</span></span>}>
 					{menuItem}
 				</Menu.SubMenu>
 			);
@@ -49,9 +49,11 @@ export default class MenuComponent extends React.Component {
 		return menus;
 	}
 
-    onToggle(info) {
+    onToggle(openKeys) {
+        const state = this.state;
+        const latestOpenKey = openKeys.find(key => !(state.openKeys.indexOf(key) > -1));
         this.setState({
-            openKey: info.open ? info.keyPath : info.keyPath.slice(1)
+            openKeys: [latestOpenKey]
         });
     }
 
@@ -64,12 +66,11 @@ export default class MenuComponent extends React.Component {
                         <span>MANAGE</span>
                     </div>
                     <Menu
-	                    mode="inline"
+                        mode="inline"
 	                    theme="dark"
-                        openKeys={this.state.openKey}
+                        openKeys={this.state.openKeys}
                         selectedKeys={[this.props.selectedMenu]}
-                        onOpen={this.onToggle.bind(this)}
-                        onClose={this.onToggle.bind(this)}
+                        onOpenChange={this.onToggle.bind(this)}
                     >
                         <Menu.Item key="系统首页"><Icon type="desktop" /><Link style={{display: "inline-block",width: "100%"}} to="/home">系统首页</Link></Menu.Item>
 
