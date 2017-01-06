@@ -16,7 +16,7 @@ import {
 	updateComment
 } from '../../actions/comment/editComment';
 
-import { Modal, Form, Input, message } from 'antd';
+import { Modal, Form, Input, message, Badge } from 'antd';
 
 import SelectComponent     from '../../components/select/js/SelectComponent';
 import TableComponent      from '../../components/table/js/TableComponent';
@@ -60,24 +60,34 @@ export class EditCommentPage extends React.Component {
             const operationWidth = totalWidth * 0.0656;
 
             const self = this;
-            let tableColumns = [
+            let tableColumns = [];
+            tableColumns.push(
                 { title: 'ID', width: idWidth, dataIndex: 'Comment_ID', key: 'Comment_ID' },
-                { title: '内容', width: contentWidth, dataIndex: 'Comment_Content', key: 'Comment_Content' },
+                {
+                    title: '内容',
+                    width: contentWidth,
+                    dataIndex: 'Comment_Content',
+                    key: 'Comment_Content',
+                    render(index, item) {
+                        if (item.Comment_Read === 0) {
+                            return <a href='javascript:void(0)' onClick={self.detailClick.bind(self, index, item)}><Badge status="error" />{item.Comment_Content}</a>
+                        } else {
+                            return <a href='javascript:void(0)' onClick={self.detailClick.bind(self, index, item)}>{item.Comment_Content}</a>
+                        }
+                    }
+                },
                 { title: '对应文章', width: articleWidth, dataIndex: 'Comment_ArticleTitle', key: 'Comment_ArticleTitle' },
                 { title: '评论用户', width: userWidth, dataIndex: 'Comment_Person_Name', key: 'Comment_Person_Name' },
-                //, { title: '操作', width: operationWidth, dataIndex: '', key: 'operation', render: (index, item) => <a href='javascript:void(0)' onClick={self.openEditModel.bind(null, index, item)}>修改</a> },
-            ];
-
-			// 设置表格操作列配置
-			tableColumns.push({
-				title: '操作',
-				width: operationWidth,
-				dataIndex: 'operation',
-				key: 'operation',
-				render(index, item) {
-					return <a href='javascript:void(0)' onClick={self.operationClick.bind(self, index, item)}>修改</a>
-				}
-			});
+                {
+                    title: '操作',
+                    width: operationWidth,
+                    dataIndex: 'operation',
+                    key: 'operation',
+                    render(index, item) {
+                        return <a href='javascript:void(0)' onClick={self.operationClick.bind(self, index, item)}>修改</a>
+                    }
+                }
+            );
 
 			// 表格的配置
 			const expandedRowRender = record => <p>{record.Comment_Content}</p>;
@@ -93,6 +103,10 @@ export class EditCommentPage extends React.Component {
 				scroll={scroll}/>
 		}
 	}
+
+    detailClick (index, item) {
+        window.location.href = '#/home/editComment/'+item.Comment_ID;
+    }
 
 	operationClick (index, item) {
 		this.props.dispatch( getComment(item.Comment_ID) );
