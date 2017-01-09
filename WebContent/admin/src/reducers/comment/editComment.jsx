@@ -8,13 +8,8 @@ import {
 
     // 弹出层所使用的初始数据
 	SET_MODEL_VISIBLE,
-    SET_MODEL_DEFAULT_USER,
-    SET_MODEL_DEFAULT_CONTENT,
-
-    // 弹出层所使用的保存到后台的数据
-    SET_MODEL_SAVE_ID,
-    SET_MODEL_SAVE_USER,
-    SET_MODEL_SAVE_CONTENT
+    SET_MODEL_SELECTED_COMMENT,
+    SET_MODEL_SAVE_REPLY_CONTENT
 } from '../../actions/comment/editComment';
 
 
@@ -43,25 +38,12 @@ export default combineReducers({
     modelVisible: cr(false, {
         [SET_MODEL_VISIBLE](state, {data}){return data}
     }),
-    // 设置弹出层中默认的评论人
-    modelDefaultUser: cr('', {
-        [SET_MODEL_DEFAULT_USER](state, {data}){return data}
-    }),
-    // 设置弹出层中默认的评论内容
-    modelDefaultContent: cr('', {
-        [SET_MODEL_DEFAULT_CONTENT](state, {data}){return data}
-    }),
-
-    // 设置弹出层中用于保存给后台的评论ID
-    modelSaveId: cr(0, {
-        [SET_MODEL_SAVE_ID](state, {data}){return data}
-    }),
-    // 设置弹出层中用于保存给后台人
-    modelSaveUser: cr('', {
-        [SET_MODEL_SAVE_USER](state, {data}){return data}
+    // 设置当前回复评论
+    modelSelectedComment: cr(false, {
+        [SET_MODEL_SELECTED_COMMENT](state, {data}){return data}
     }),
     // 设置弹出层中用于保存给后台内容
-    modelSaveContent: cr('', {
-        [SET_MODEL_SAVE_CONTENT](state, {data}){return data}
+    modelSaveReplyContent: cr('', {
+        [SET_MODEL_SAVE_REPLY_CONTENT](state, {data}){return data}
     }),
 });

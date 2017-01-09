@@ -124,6 +124,29 @@ public class CommentServiceImpl<T extends TComment> extends ServiceImpl<T> imple
 		return comment;
 	}
 	
+	/**
+	 *  更新评论的未读字段（设为已读）
+	 *  @param id 评论ID
+	 *  @return 单个评论内容
+	 */
+	@Override
+	public TComment updateCommentUnread(int id) {
+		TComment priComment = getCommentByID(id);
+		
+		TComment comment = new TComment();
+		comment.setComment_ID(priComment.getComment_ID());
+		comment.setComment_Person_Name(priComment.getComment_Person_Name());
+		comment.setComment_Person_Email(priComment.getComment_Person_Email());
+		comment.setComment_Content(priComment.getComment_Content());
+		comment.setComment_Time(priComment.getComment_Time());
+		comment.setComment_ArticleID(priComment.getComment_ArticleID());
+		comment.setComment_ArticleTitle(priComment.getComment_ArticleTitle());
+		comment.setComment_Read(1);
+		comment.setParent_CommentID(priComment.getParent_CommentID());
+		this.getDao().update((T) comment);
+		
+		return comment;
+	}
 	
 	
 }

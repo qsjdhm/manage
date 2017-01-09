@@ -17,6 +17,7 @@ import editBook            from './book/editBook';
 import delBook             from './book/delBook';
 
 import editComment         from './comment/editComment';
+import detailComment       from './comment/detailComment';
 import delComment          from './comment/delComment';
 
 import addLink             from './link/addLink';
@@ -58,6 +59,7 @@ const reducers = {
     delBook,
 
     editComment,
+    detailComment,
     delComment,
 
     addLink,

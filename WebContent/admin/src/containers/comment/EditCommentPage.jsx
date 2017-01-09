@@ -9,11 +9,10 @@ import { connect } from 'react-redux';
 import {
     getCommentCount,
 	selectedPageChange,
-    getComment,
+    selectedCommentChange,
 	modelVisibleChange,
-    modelSaveUserChange,
-    modelSaveContentChange,
-	updateComment
+    modelSaveReplyContentChange,
+    replyComment
 } from '../../actions/comment/editComment';
 
 import { Modal, Form, Input, message, Badge } from 'antd';
@@ -84,7 +83,7 @@ export class EditCommentPage extends React.Component {
                     dataIndex: 'operation',
                     key: 'operation',
                     render(index, item) {
-                        return <a href='javascript:void(0)' onClick={self.operationClick.bind(self, index, item)}>修改</a>
+                        return <a href='javascript:void(0)' onClick={self.operationClick.bind(self, index, item)}>回复</a>
                     }
                 }
             );
@@ -109,25 +108,20 @@ export class EditCommentPage extends React.Component {
     }
 
 	operationClick (index, item) {
-		this.props.dispatch( getComment(item.Comment_ID) );
+		this.props.dispatch( selectedCommentChange(item) );
 	}
 
     handleOk () {
-		this.props.dispatch( updateComment() );
+		this.props.dispatch( replyComment() );
     }
 
     handleCancel () {
 		this.props.dispatch( modelVisibleChange(false) );
     }
 
-    modelUserChangeHandler (e) {
-        this.props.dispatch( modelSaveUserChange(e.target.value) );
-    }
-
 	modelContentChangeHandler (e) {
-		this.props.dispatch( modelSaveContentChange(e.target.value) );
+		this.props.dispatch( modelSaveReplyContentChange(e.target.value) );
 	}
-
 
 
 	render() {
@@ -138,18 +132,14 @@ export class EditCommentPage extends React.Component {
                 { this.renderTableList() }
                 { this.renderPaginationList() }
 
-                <Modal title="修改评论详细信息"
+                <Modal title="回复用户评论"
                        visible={this.props.modelVisible}
                        onOk={this.handleOk.bind(this)}
                        onCancel={this.handleCancel.bind(this)}>
                     <Form horizontal>
                         <FormItem
-                            label="评论用户">
-                            <Input value={this.props.modelSaveUser} onChange={this.modelUserChangeHandler.bind(this)} placeholder="" size="large"/>
-                        </FormItem>
-                        <FormItem
-                            label="评论内容">
-                            <Input value={this.props.modelSaveContent} onChange={this.modelContentChangeHandler.bind(this)} type="textarea" rows="3" placeholder="" size="large"/>
+                            label="回复内容">
+                            <Input value={this.props.modelSaveReplyContent} onChange={this.modelContentChangeHandler.bind(this)} type="textarea" rows="3" placeholder="" size="large"/>
                         </FormItem>
                     </Form>
                 </Modal>

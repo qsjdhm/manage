@@ -19,9 +19,9 @@ export default class BreadcrumbComponent extends React.Component {
                 // 添加个空的span
                 return <span key={index}></span>;
             } else {
-                if (item.path === 'home') {
+                if (item.path === 'home') {  // 系统首页
                     return <Breadcrumb.Item key={index} href={'#/'+item.path}> {item.name} </Breadcrumb.Item>;
-                } else if (item.path.split('editArticle/:id').length > 1) {
+                } else if (item.path.split(':id').length > 1) {  // 有详情的模式
                     return (
                         <span>
                             <Breadcrumb.Item key={index} href={'#/home/'+item.path.split('/:id')[0]}>{item.name}</Breadcrumb.Item>
@@ -29,7 +29,7 @@ export default class BreadcrumbComponent extends React.Component {
                             <span className='crumb-item-details'>详情</span>
                         </span>
                     );
-                } else {
+                } else {  // 正常菜单
                     return <Breadcrumb.Item key={index} href={'#/home/'+item.path}> {item.name} </Breadcrumb.Item>;
                 }
             }

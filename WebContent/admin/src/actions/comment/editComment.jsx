@@ -11,13 +11,8 @@ export const SET_COMMENT_LIST = 'SET_COMMENT_LIST';
 
 // 给弹出层中的组件设置默认数据的事件
 export const SET_MODEL_VISIBLE = 'SET_MODEL_VISIBLE';
-export const SET_MODEL_DEFAULT_USER = 'SET_MODEL_DEFAULT_USER';
-export const SET_MODEL_DEFAULT_CONTENT = 'SET_MODEL_DEFAULT_CONTENT';
-
-// 弹出层中的组件切换数据保存到后台的事件
-export const SET_MODEL_SAVE_ID = 'SET_MODEL_SAVE_ID';
-export const SET_MODEL_SAVE_USER = 'SET_MODEL_SAVE_USER';
-export const SET_MODEL_SAVE_CONTENT = 'SET_MODEL_SAVE_CONTENT';
+export const SET_MODEL_SELECTED_COMMENT = 'SET_MODEL_SELECTED_COMMENT';
+export const SET_MODEL_SAVE_REPLY_CONTENT = 'SET_MODEL_SAVE_REPLY_CONTENT';
 
 
 const setCommentCount = cac(SET_COMMENT_COUNT, 'data');
@@ -25,14 +20,8 @@ const setSelectedPage = cac(SET_SELECTED_PAGE, 'data');
 const setCommentList = cac(SET_COMMENT_LIST, 'data');
 
 const setModelVisible = cac(SET_MODEL_VISIBLE, 'data');
-const setModelDefaultUser = cac(SET_MODEL_DEFAULT_USER, 'data');
-const setModelDefaultContent = cac(SET_MODEL_DEFAULT_CONTENT, 'data');
-
-const setModelSaveId = cac(SET_MODEL_SAVE_ID, 'data');
-const setModelSaveUser = cac(SET_MODEL_SAVE_USER, 'data');
-const setModelSaveContent = cac(SET_MODEL_SAVE_CONTENT, 'data');
-
-
+const setModelSelectedComment = cac(SET_MODEL_SELECTED_COMMENT, 'data');
+const setModelSaveReplyContent = cac(SET_MODEL_SAVE_REPLY_CONTENT, 'data');
 
 
 // 获取评论总数
@@ -73,28 +62,13 @@ export function getCommentList () {
     }
 }
 
-// 获取单个评论
-export function getComment (commentId) {
-	return (dispatch, getState) => {
-		const url = ENV.baseUrl + "/commentAction/getComment";
-		const method = "POST";
-		const body = {
-			"selectId" : commentId
-		};
-		const errInfo = "请求评论信息连接出错！";
-		fetchComponent.send(this, url, method, body, errInfo, function(data){
-			dispatch(modelVisibleChange(true));
-
-            // 给弹出层的组件设置初始化数据
-            dispatch(setModelDefaultUser(data.userName));
-            dispatch(setModelDefaultContent(data.content));
-
-            // 设置弹出层的组件的保存数据
-            dispatch(setModelSaveId(data.id));
-            dispatch(modelSaveUserChange(data.userName));
-            dispatch(modelSaveContentChange(data.content));
-		});
-	}
+// 设置当前被回复的评论
+export function selectedCommentChange (comment) {
+    return (dispatch, getState) => {
+        dispatch(modelVisibleChange(true));
+        dispatch(setModelSaveReplyContent(''));
+        dispatch(setModelSelectedComment(comment));
+    }
 }
 
 // 设置弹出层是否显示事件
@@ -105,30 +79,26 @@ export function modelVisibleChange (visible) {
 }
 
 // 设置弹出层中评论人改变事件
-export function modelSaveUserChange (user) {
+export function modelSaveReplyContentChange (content) {
     return (dispatch, getState) => {
-        dispatch(setModelSaveUser(user));
+        dispatch(setModelSaveReplyContent(content));
     }
 }
 
-// 设置弹出层中评论内容改变事件
-export function modelSaveContentChange (content) {
+// 回复评论
+export function replyComment () {
 	return (dispatch, getState) => {
-		dispatch(setModelSaveContent(content));
-	}
-}
-
-// 更新评论
-export function updateComment () {
-	return (dispatch, getState) => {
-		const url = ENV.baseUrl + "/commentAction/updateComment";
+		const url = ENV.baseUrl + "/commentAction/addComment";
 		const method = "POST";
 		const body = {
-			"id"       : getState().editComment.modelSaveId,
-			"userName" : encodeURI(encodeURI(getState().editComment.modelSaveUser)),
-			"content"  : encodeURI(encodeURI(getState().editComment.modelSaveContent))
+			"fCommentID"   : getState().editComment.modelSelectedComment.Comment_ID,
+			"name"         : encodeURI(encodeURI('不拽注定被甩~')),
+            "email"        : encodeURI(encodeURI('qsjdhm@163.com')),
+			"content"      : encodeURI(encodeURI(getState().editComment.modelSaveReplyContent)),
+            "articleID"    : getState().editComment.modelSelectedComment.Comment_ArticleID,
+            "articleTitle" : encodeURI(encodeURI(getState().editComment.modelSelectedComment.Comment_ArticleTitle))
 		};
-		const errInfo = "修改评论连接出错！";
+		const errInfo = "回复评论连接出错！";
 		fetchComponent.send(self, url, method, body, errInfo, function(data){
 			message.success(data.msg+"！", 3);
 			dispatch(getCommentList());

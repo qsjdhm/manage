@@ -27,5 +27,8 @@ public interface ICommentService <T extends TComment> extends IService<T> {
 	
 	// 根据ID获取评论内容
 	public TComment getCommentByID(int id);
+	
+	// 更新评论的未读字段（设为已读）
+	public TComment updateCommentUnread(int id);
 }
 

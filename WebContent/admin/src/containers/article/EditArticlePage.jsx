@@ -137,6 +137,7 @@ export class EditArticlePage extends React.Component {
                     key: 'Read_Num',
                     sorter: (a, b) => a.Read_Num - b.Read_Num,
                     render(index, item) {
+                        //return item.Read_Num > 1000 ? <span style={{color:'red'}}>{item.Read_Num}</span> : <span>{item.Read_Num}</span>;
                         if (item.Read_Num > 1000) {
                             return <span style={{color:'red'}}>{item.Read_Num}</span>
                         } else {

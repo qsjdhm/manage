@@ -131,6 +131,7 @@ public class AdminCommentController {
 			commentJson.put("Comment_ID", comment.getComment_ID());
 			commentJson.put("Comment_Person_Name", comment.getComment_Person_Name());
 			commentJson.put("Comment_Content", comment.getComment_Content());
+			commentJson.put("Comment_ArticleID", comment.getComment_ArticleID());
 			commentJson.put("Comment_ArticleTitle", comment.getComment_ArticleTitle());
 			commentJson.put("Comment_Read", comment.getComment_Read());
 			
@@ -233,8 +234,11 @@ public class AdminCommentController {
 		
 		int selectId = Integer.parseInt(request.getParameter("selectId"));
 		
-		// 1.根据评论id获取评论内容
-		TComment comment = commentService.getCommentByID(selectId);
+		// 1.请求一次后就表示此评论看过了，所以要设为已读
+		TComment comment = commentService.updateCommentUnread(selectId);
+		
+		// 2.根据评论id获取评论内容
+		//TComment comment = commentService.getCommentByID(selectId);
 		String userName = comment.getComment_Person_Name();
 		String content = comment.getComment_Content();
 		int read = comment.getComment_Read();

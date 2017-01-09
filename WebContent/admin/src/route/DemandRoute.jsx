@@ -67,6 +67,7 @@ const rootRoute = {
                 require('./routes/book/DelBookPage'),
 
                 require('./routes/comment/EditCommentPage'),
+                require('./routes/comment/DetailCommentPage'),
                 require('./routes/comment/DelCommentPage'),
 
                 require('./routes/link/AddLinkPage'),
