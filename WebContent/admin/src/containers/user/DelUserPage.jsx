@@ -47,15 +47,16 @@ export class DelUserPage extends React.Component {
 
     // 渲染数据表格
     renderTableList() {
+        const container_pack = document.getElementById("container");
         if (document.getElementById("container")){
-			const totalWidth     = document.getElementById("container").offsetWidth - 45;
-			const totalHeight    = document.getElementById("container").offsetHeight - 140;
+            const self           = this;
+            const totalWidth     = container_pack.offsetWidth - 45;
+            const totalHeight    = container_pack.offsetHeight - 140;
             const idWidth        = totalWidth * 0.0749;
             const titleWidth     = totalWidth * 0.3537;
             const urlWidth       = totalWidth * 0.4705;
             const operationWidth = totalWidth * 0.0656;
 
-            const self = this;
             let tableColumns = [
                 { title: 'ID', width: idWidth, dataIndex: 'User_ID', key: 'User_ID' },
                 { title: '名称', width: titleWidth, dataIndex: 'User_Account', key: 'User_Account' },

@@ -73,15 +73,16 @@ export class DelSortPage extends React.Component {
 
     // 渲染数据表格
     renderTableList() {
+        const container_pack = document.getElementById("container");
         if (document.getElementById("container")){
-			const totalWidth     = document.getElementById("container").offsetWidth - 45;
-			const totalHeight    = document.getElementById("container").offsetHeight - 170;
+            const self           = this;
+            const totalWidth     = container_pack.offsetWidth - 45;
+            const totalHeight    = container_pack.offsetHeight - 170;
             const idWidth        = totalWidth * 0.0749;
             const titleWidth     = totalWidth * 0.3537;
             const urlWidth       = totalWidth * 0.4705;
             const operationWidth = totalWidth * 0.0656;
 
-            const self = this;
             let tableColumns = [
                 { title: 'ID', width: idWidth, dataIndex: 'Sort_ID', key: 'Sort_ID' },
                 { title: '名称', width: titleWidth, dataIndex: 'Sort_Name', key: 'Sort_Name' },

@@ -74,13 +74,14 @@ export class EditArticlePage extends React.Component {
 
     // 渲染数据表格
     renderTableList() {
+        const container_pack = document.getElementById("container");
         if (document.getElementById("container")){
-            const self = this;
-            const totalWidth     = document.getElementById("container").offsetWidth - 45;
-			const totalHeight    = document.getElementById("container").offsetHeight - 170;
+            const self           = this;
+            const totalWidth     = container_pack.offsetWidth - 45;
+            const totalHeight    = container_pack.offsetHeight - 170;
             const idWidth        = totalWidth * 0.0749;
             const titleWidth     = totalWidth * 0.3465;
-            const tagWidth      = totalWidth * 0.1737;
+            const tagWidth       = totalWidth * 0.1737;
             const recomWidth     = totalWidth * 0.0637;
             const readWidth      = totalWidth * 0.0637;
             const dateWidth      = totalWidth * 0.1766;

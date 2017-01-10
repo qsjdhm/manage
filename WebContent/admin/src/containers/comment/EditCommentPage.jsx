@@ -47,16 +47,17 @@ export class EditCommentPage extends React.Component {
 
     // 渲染数据表格
 	renderTableList() {
+        const container_pack = document.getElementById("container");
         if (document.getElementById("container")){
-			const totalWidth     = document.getElementById("container").offsetWidth - 45;
-			const totalHeight    = document.getElementById("container").offsetHeight - 140;
+            const self           = this;
+            const totalWidth     = container_pack.offsetWidth - 45;
+            const totalHeight    = container_pack.offsetHeight - 170;
             const idWidth        = totalWidth * 0.0749;
             const contentWidth   = totalWidth * 0.3465;
             const articleWidth   = totalWidth * 0.3037;
             const userWidth      = totalWidth * 0.1740;
             const operationWidth = totalWidth * 0.0656;
 
-            const self = this;
             let tableColumns = [];
             tableColumns.push(
                 { title: 'ID', width: idWidth, dataIndex: 'Comment_ID', key: 'Comment_ID' },

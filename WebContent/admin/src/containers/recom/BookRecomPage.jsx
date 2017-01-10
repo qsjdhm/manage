@@ -65,9 +65,11 @@ export class BookRecomPage extends React.Component {
 
     // 渲染数据表格
     renderTableList() {
+        const container_pack = document.getElementById("container");
         if (document.getElementById("container")){
-			const totalWidth     = document.getElementById("container").offsetWidth - 45;
-			const totalHeight    = document.getElementById("container").offsetHeight - 170;
+            const self           = this;
+            const totalWidth     = container_pack.offsetWidth - 45;
+            const totalHeight    = container_pack.offsetHeight - 170;
             const idWidth        = totalWidth * 0.0749;
             const titleWidth     = totalWidth * 0.3465;
             const sortWidth      = totalWidth * 0.1737;
@@ -75,7 +77,6 @@ export class BookRecomPage extends React.Component {
             const readWidth      = totalWidth * 0.1520;
             const operationWidth = totalWidth * 0.0656;
 
-            const self = this;
             let tableColumns = [
                 { title: 'ID', width: idWidth, dataIndex: 'Book_ID', key: 'Book_ID' },
                 { title: '名称', width: titleWidth, dataIndex: 'Book_Name', key: 'Book_Name' },
