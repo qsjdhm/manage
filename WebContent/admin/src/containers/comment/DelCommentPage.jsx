@@ -27,19 +27,17 @@ export class DelCommentPage extends React.Component {
         super(props);
     }
 
-    componentWillMount () {
+    componentDidMount () {
         // 获取评论的分类列表
         this.props.dispatch( getCommentCount(true) );
     }
 
     // 渲染分页条
     renderPaginationList() {
-        if(this.props.commentCount.length !== 0) {
-            return <PaginationComponent
-                count={this.props.commentCount}
-                pageSize={10}
-                pageed={this.paginationClickHandler.bind(this)}/>
-        }
+        return <PaginationComponent
+            count={this.props.commentCount}
+            pageSize={10}
+            pageed={this.paginationClickHandler.bind(this)}/>
     }
 
     paginationClickHandler(pageId) {
@@ -48,8 +46,8 @@ export class DelCommentPage extends React.Component {
 
     // 渲染数据表格
     renderTableList() {
-        if (this.props.commentList.length !== 0){
-			const totalWidth     = document.getElementById("page").offsetWidth - 45;
+        if (document.getElementById("container")){
+			const totalWidth     = document.getElementById("container").offsetWidth - 45;
 			const totalHeight    = document.getElementById("container").offsetHeight - 140;
             const idWidth        = totalWidth * 0.0749;
             const contentWidth   = totalWidth * 0.3465;

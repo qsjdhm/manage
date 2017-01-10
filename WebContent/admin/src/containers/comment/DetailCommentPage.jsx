@@ -24,13 +24,13 @@ export class DetailCommentPage extends React.Component {
         super(props);
     }
 
-    componentWillMount () {
+    componentDidMount () {
         // 获取当前文章内容
         this.props.dispatch( idChange(this.props.params.id) );
     }
 
     // 页面销毁时，重置当前状态
-	componentWillUnmount () {
+    componentWillMount () {
         this.props.dispatch( pageLoadingChange(true) );
 	}
 

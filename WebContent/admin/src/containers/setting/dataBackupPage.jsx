@@ -36,12 +36,10 @@ export class dataBackupPage extends React.Component {
 
 	// 渲染分页条
 	renderPaginationList() {
-		if(this.props.backupCount.length !== 0) {
-			return <PaginationComponent
-				count={this.props.backupCount}
-				pageSize={10}
-				pageed={this.paginationClickHandler.bind(this)}/>
-		}
+        return <PaginationComponent
+            count={this.props.backupCount}
+            pageSize={10}
+            pageed={this.paginationClickHandler.bind(this)}/>
 	}
 
 	paginationClickHandler(pageId) {
@@ -50,10 +48,10 @@ export class dataBackupPage extends React.Component {
 
 	// 渲染数据表格
 	renderTableList() {
-		if (this.props.backupList.length !== 0){
+		if (document.getElementById("container")){
 			const self = this;
 
-			const totalWidth     = document.getElementById("page").offsetWidth - 45;
+			const totalWidth     = document.getElementById("container").offsetWidth - 45;
 			const totalHeight    = document.getElementById("container").offsetHeight - 170;
 
 			const nameWidth      = totalWidth * 0.3465;

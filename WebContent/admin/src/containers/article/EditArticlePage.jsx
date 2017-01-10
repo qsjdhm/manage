@@ -38,7 +38,7 @@ export class EditArticlePage extends React.Component {
         super(props);
     }
 
-    componentWillMount () {
+    componentDidMount () {
         // 获取文章的分类列表
         this.props.dispatch( getSortList() );
         // 获取文章的标签列表
@@ -62,12 +62,10 @@ export class EditArticlePage extends React.Component {
 
     // 渲染分页条
     renderPaginationList() {
-        if(this.props.articleCount.length !== 0) {
-            return <PaginationComponent
-                count={this.props.articleCount}
-                pageSize={10}
-                pageed={this.paginationClickHandler.bind(this)}/>
-        }
+        return <PaginationComponent
+            count={this.props.articleCount}
+            pageSize={10}
+            pageed={this.paginationClickHandler.bind(this)}/>
     }
 
     paginationClickHandler(pageId) {
@@ -76,9 +74,9 @@ export class EditArticlePage extends React.Component {
 
     // 渲染数据表格
     renderTableList() {
-        if (this.props.articleList.length !== 0){
+        if (document.getElementById("container")){
             const self = this;
-            const totalWidth     = document.getElementById("page").offsetWidth - 45;
+            const totalWidth     = document.getElementById("container").offsetWidth - 45;
 			const totalHeight    = document.getElementById("container").offsetHeight - 170;
             const idWidth        = totalWidth * 0.0749;
             const titleWidth     = totalWidth * 0.3465;

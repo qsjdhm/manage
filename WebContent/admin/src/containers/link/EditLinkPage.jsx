@@ -29,19 +29,17 @@ export class EditLinkPage extends React.Component {
 		super(props);
 	}
 
-    componentWillMount () {
+    componentDidMount () {
         // 获取评论的分类列表
         this.props.dispatch( getLinkCount() );
     }
 
     // 渲染分页条
     renderPaginationList() {
-        if(this.props.linkCount.length !== 0) {
-            return <PaginationComponent
-                count={this.props.linkCount}
-                pageSize={10}
-                pageed={this.paginationClickHandler.bind(this)}/>
-        }
+        return <PaginationComponent
+            count={this.props.linkCount}
+            pageSize={10}
+            pageed={this.paginationClickHandler.bind(this)}/>
     }
 
     paginationClickHandler(pageId) {
@@ -50,8 +48,8 @@ export class EditLinkPage extends React.Component {
 
     // 渲染数据表格
 	renderTableList() {
-        if (this.props.linkList.length !== 0){
-			const totalWidth     = document.getElementById("page").offsetWidth - 45;
+        if (document.getElementById("container")){
+			const totalWidth     = document.getElementById("container").offsetWidth - 45;
 			const totalHeight    = document.getElementById("container").offsetHeight - 140;
             const idWidth        = totalWidth * 0.0749;
             const titleWidth     = totalWidth * 0.3537;

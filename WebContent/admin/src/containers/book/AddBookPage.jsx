@@ -31,7 +31,7 @@ export class AddBookPage extends React.Component {
         super(props);
     }
 
-    componentWillMount () {
+    componentDidMount () {
         // 获取笔记的分类列表
         this.props.dispatch( getSortList() );
     }

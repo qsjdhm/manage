@@ -25,7 +25,7 @@ export class AddSortPage extends React.Component {
         super(props);
     }
 
-    componentWillMount () {
+    componentDidMount () {
 
     }
 

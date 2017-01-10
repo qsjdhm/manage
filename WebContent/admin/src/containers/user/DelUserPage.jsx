@@ -28,19 +28,17 @@ export class DelUserPage extends React.Component {
         console.info(props);
     }
 
-    componentWillMount () {
+    componentDidMount () {
         // 获取用户的分类列表
         this.props.dispatch( getUserCount(true) );
     }
 
     // 渲染分页条
     renderPaginationList() {
-        if(this.props.userCount.length !== 0) {
-            return <PaginationComponent
-                count={this.props.userCount}
-                pageSize={10}
-                pageed={this.paginationClickHandler.bind(this)}/>
-        }
+        return <PaginationComponent
+            count={this.props.userCount}
+            pageSize={10}
+            pageed={this.paginationClickHandler.bind(this)}/>
     }
 
     paginationClickHandler(pageId) {
@@ -49,8 +47,8 @@ export class DelUserPage extends React.Component {
 
     // 渲染数据表格
     renderTableList() {
-        if (this.props.userList.length !== 0){
-			const totalWidth     = document.getElementById("page").offsetWidth - 45;
+        if (document.getElementById("container")){
+			const totalWidth     = document.getElementById("container").offsetWidth - 45;
 			const totalHeight    = document.getElementById("container").offsetHeight - 140;
             const idWidth        = totalWidth * 0.0749;
             const titleWidth     = totalWidth * 0.3537;

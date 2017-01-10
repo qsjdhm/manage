@@ -22,7 +22,7 @@ export class AddLinkPage extends React.Component {
         super(props);
     }
 
-    componentWillMount () {
+    componentDidMount () {
 
     }
 

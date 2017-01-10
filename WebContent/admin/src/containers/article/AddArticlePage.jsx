@@ -33,7 +33,7 @@ export class AddArticlePage extends React.Component {
         super(props);
     }
 
-    componentWillMount () {
+    componentDidMount () {
         // 获取文章的分类列表
         this.props.dispatch( getSortList() );
     }

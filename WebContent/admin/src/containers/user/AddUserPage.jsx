@@ -23,7 +23,7 @@ export class AddUserPage extends React.Component {
         super(props);
     }
 
-    componentWillMount () {
+    componentDidMount () {
 
     }
 
