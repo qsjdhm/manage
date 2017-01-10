@@ -32,6 +32,8 @@ import com.manage.vo.TLink;
 import com.manage.vo.TSort;
 import com.manage.vo.TComment;
 
+import com.manage.util.OperateEmail;
+
 
 @Controller
 @RequestMapping(value = "/commentAction")
@@ -161,6 +163,19 @@ public class AdminCommentController {
 		String articleTitle = URLDecoder.decode(URLDecoder.decode(request.getParameter("articleTitle"), "utf-8"), "utf-8");
 		int fCommentID = Integer.parseInt(request.getParameter("fCommentID"));
 		
+		if (fCommentID != 0) {
+			// 此种情况表明是回复邮件
+			OperateEmail oEmail = new OperateEmail();
+			TComment fComment = commentService.updateCommentUnread(fCommentID);
+			String fName = fComment.getComment_Person_Name();
+			String fEmail = fComment.getComment_Person_Email();
+			int fArticleID = fComment.getComment_ArticleID();
+			String emailContent = content + 
+					"<br/><br/><a href='http://www.52doit.com/show/"+fArticleID+"'>点击回复他</a>";
+			
+			oEmail.sendEmail("qsjdhm@163.com", fName, "z0000000", fEmail, emailContent);
+		}
+
 		// 处理时间
 		SimpleDateFormat pSMDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		date = pSMDate.format(new Date());
