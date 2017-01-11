@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { Select } from 'antd';
-import 'antd/dist/antd.css';
+//import 'antd/dist/antd.css';
 import '../css/select.less';
 
 class SelectComponent extends React.Component {

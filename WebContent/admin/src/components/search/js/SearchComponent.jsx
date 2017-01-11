@@ -5,7 +5,7 @@
 import React from 'react';
 import { Input, Select, Button, Icon } from 'antd';
 import classNames from 'classnames';
-import 'antd/dist/antd.css';
+//import 'antd/dist/antd.css';
 import '../css/search.less';
 
 

@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { Breadcrumb } from 'antd';
-import 'antd/dist/antd.css';
+//import 'antd/dist/antd.css';
 
 import '../css/breadcrumb.less';
 

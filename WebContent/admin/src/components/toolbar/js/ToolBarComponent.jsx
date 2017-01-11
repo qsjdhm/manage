@@ -2,7 +2,7 @@
  * Created by zhangyan on 2016/1/12.
  */
 
-import 'antd/dist/antd.css';
+//import 'antd/dist/antd.css';
 import '../css/toolbar.less';
 
 import React from 'react';

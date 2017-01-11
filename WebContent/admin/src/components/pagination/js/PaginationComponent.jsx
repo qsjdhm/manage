@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { Pagination, Select } from 'antd';
-import 'antd/dist/antd.css';
+//import 'antd/dist/antd.css';
 import '../css/pagination.less';
 
 
