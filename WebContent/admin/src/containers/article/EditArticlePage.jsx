@@ -116,11 +116,11 @@ export class EditArticlePage extends React.Component {
 					}
 				},
                 {
-                    title: '推荐量',
+                    title: '推荐',
                     width: recomWidth,
                     dataIndex: 'Recommend_Num',
                     key: 'Recommend_Num',
-                    sorter: (a, b) => a.Recommend_Num - b.Recommend_Num,
+                    //sorter: (a, b) => a.Recommend_Num - b.Recommend_Num,
                     render(index, item) {
                         if (item.Recommend_Num > 1000) {
                             return <span style={{color:'red'}}>{item.Recommend_Num}</span>;
@@ -130,11 +130,11 @@ export class EditArticlePage extends React.Component {
                     }
                 },
                 {
-                    title: '点击量',
+                    title: '点击',
                     width: readWidth,
                     dataIndex: 'Read_Num',
                     key: 'Read_Num',
-                    sorter: (a, b) => a.Read_Num - b.Read_Num,
+                    //sorter: (a, b) => a.Read_Num - b.Read_Num,
                     render(index, item) {
                         //return item.Read_Num > 1000 ? <span style={{color:'red'}}>{item.Read_Num}</span> : <span>{item.Read_Num}</span>;
                         if (item.Read_Num > 1000) {
