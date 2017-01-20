@@ -8,8 +8,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var proConfig = Object.assign(webpackBase, {
     devtool: 'cheap-module-source-map',
     entry: {
-        main: path.resolve(__dirname, '../src/index.jsx'),  // 逻辑代码
-        common: ['react','antd','jquery']  // 公用类代码
+        bundle: path.resolve(__dirname, '../src/index.jsx'),  // 逻辑代码
+        common: ['react','react-dom','react-router','react-redux','redux','redux-thunk','antd']  // 公用类代码
     },
     output: {
         path: path.resolve(__dirname, '../dist'),  // 存放资源路径
@@ -28,7 +28,7 @@ proConfig.plugins = (webpackBase.plugins || []).concat(
         template: path.resolve(__dirname, '../src/template/dev_index.html'),    //html模板路径
         inject: 'body', //js插入的位置，true/'head'/'body'/false
         hash: true, //为静态资源生成hash值
-        chunks: ['main', 'common'],//需要引入的chunk，不配置就会引入所有页面的资源
+        chunks: ['bundle', 'common'],//需要引入的chunk，不配置就会引入所有页面的资源
         minify:{    //压缩HTML文件
             removeComments:true,    //移除HTML中的注释
             collapseWhitespace:false    //删除空白符与换行符
@@ -36,6 +36,9 @@ proConfig.plugins = (webpackBase.plugins || []).concat(
     }),
     // 压缩
     new webpack.optimize.UglifyJsPlugin({
+        output: {
+            comments: false,  // 移除开源库的copyright信息
+        },
         compress: {
             warnings: false
         }
